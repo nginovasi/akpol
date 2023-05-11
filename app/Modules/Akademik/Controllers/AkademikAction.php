@@ -818,7 +818,7 @@ class AkademikAction extends BaseController
                     'deskripsi' => $_POST['deskripsi'][$i],
                     'pertemuan_ke' => $_POST['pertemuan_ke'][$i],
                     'id_mata_pelajaran' => $_POST['id_mata_pelajaran'],
-                    // 'id_user_pendidik' => $_POST['id_user_pendidik'],
+                    'id_user_pendidik' => $_POST['id_user_pendidik'],
                     'id_semester' => $_POST['id_semester'],
                     'is_ujian' => $_POST['is_ujian'][$i] == 0 ? $_POST['is_ujian'][$i] : '1',
                     'id_jenis_ujian' => $_POST['is_ujian'][$i] != 0 ? $_POST['is_ujian'][$i] : null,
