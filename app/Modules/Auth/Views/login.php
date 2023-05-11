@@ -143,7 +143,7 @@
       <div class="d-flex flex align-items-center justify-content-center" style="display: flex; justify-content: center;">
          <img src="<?=base_url()?>/assets/img/AKPOL Logo-min.png" width="150">
       </div>
-      <h4 style="text-align: center; color: black">SISTEM AKADEMIK DAN PENILAIAN
+      <h4 style="text-align: center; color: black">SSISTEM AKADEMIK DAN PENILAIAN
          AKADEMI KEPOLISIAN
       </h4>
       <form id="form1" name="form1" class="sign-in-form" method="post" enctype="multipart/form-data" autocomplete="off">
