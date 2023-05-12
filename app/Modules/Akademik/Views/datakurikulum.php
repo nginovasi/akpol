@@ -63,13 +63,13 @@
                                         <label for="id_batalyon">Batalyon</label>
                                         <select class="form-control sel2" id="id_batalyon" name="id_batalyon" required></select>
                                         <!-- <input type="text" class="form-control" id="nama_batalyon"> -->
-                                        <input type="hidden" class="form-control" id="id_batalyon" name="id_batalyon">
+                                        <!-- <input type="hidden" class="form-control" id="id_batalyon" name="id_batalyon"> -->
                                     </div>
                                     <div class="col-6">
                                         <label for="id_semester">Semester</label>
                                         <select class="form-control sel2" id="id_semester" name="id_semester" required></select>
                                         <!-- <input type="text" class="form-control" id="nama_semester"> -->
-                                        <input type="hidden" class="form-control" id="id_semester" name="id_semester">
+                                        <!-- <input type="hidden" class="form-control" id="id_semester" name="id_semester"> -->
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -77,13 +77,13 @@
                                         <label for="id_mata_pelajaran">Mata Pelajaran</label>
                                         <select class="form-control sel2" id="id_mata_pelajaran" name="id_mata_pelajaran" required></select>
                                         <!-- <input type="text" class="form-control" id="nama_mata_pelajaran"> -->
-                                        <input type="hidden" class="form-control" id="id_mata_pelajaran" name="id_mata_pelajaran">
+                                        <!-- <input type="hidden" class="form-control" id="id_mata_pelajaran" name="id_mata_pelajaran"> -->
                                     </div>
                                     <div class="col-6">
                                         <label for="id_user_pendidik">Ketua Tim Pendidik</label>
                                         <select class="form-control sel2" id="id_user_pendidik" name="id_user_pendidik" required></select>
                                         <!-- <input type="text" class="form-control" id="nama_user_pendidik"> -->
-                                        <input type="hidden" class="form-control" id="id_user_pendidik" name="id_user_pendidik">
+                                        <!-- <input type="hidden" class="form-control" id="id_user_pendidik" name="id_user_pendidik"> -->
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -114,7 +114,8 @@
                                             <td><input type="hidden" name="id[0]"><input type="text" class="form-control judul" name="judul[0]" value="" placeholder="Judul " required></td>
                                             <td><input type="text" class="form-control deskripsi" name="deskripsi[0]" value="" placeholder="Deskripsi " required></td>
                                             <td><select class="form-control is_ujian" name="is_ujian[0]" value="0" placeholder="Pertemuan" required>
-                                                    <option value="0" selected>Tidak</option>
+                                                    <option value="">Pilih</option>
+                                                    <option value="0">Tidak</option>
                                                     <option value="1">UTS</option>
                                                     <option value="2">UAS</option>
                                                 </select></td>
@@ -315,6 +316,7 @@
                     $row.append($("<td>").html('<input type="text" class="form-control deskripsi" name="deskripsi[' + count + ']" value="' + list.deskripsi + '" placeholder="Deskripsi " required >'));
 
                     $row.append($("<td>").html('<select class="form-control is_ujian" name="is_ujian[' + count + ']" value="" placeholder="Pertemuan"  required>\
+                                                    <option value="">Pilih</option>\
                                                     <option value="0">Tidak</option>\
                                                     <option value="1" >UTS</option>\
                                                     <option value="2" >UAS</option>\
@@ -624,6 +626,6 @@
     }
 
     function hiddenform() {
-        // $("#form-simpan").hide();
+        $("#form-simpan").hide();
     }
 </script>
