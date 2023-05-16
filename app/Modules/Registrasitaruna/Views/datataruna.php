@@ -1301,6 +1301,7 @@
                         type: 'post',
                         data: {
                             id: $this.data('id'),
+                            noakshort: $this.data('noakshort'),
                             "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
                         },
                         dataType: 'json',
@@ -1590,7 +1591,7 @@
                     if (data.is_verif == '1') {
 
                     } else {
-                        button += '<button class="btn btn-sm btn-outline-success detail verif" data-id="' + data.id + '" title="Verif">\
+                        button += '<button class="btn btn-sm btn-outline-success detail verif" data-id="' + data.id + '" data-noakshort="' + data.noakshort + '" title="Verif">\
                                         <i class="fa fa-check"></i>\
                                     </button>\
                                     ';
@@ -1598,19 +1599,19 @@
                 }
 
                 if (auth_edit == "1") {
-                    button += '<button class="btn btn-sm btn-outline-warning edit" data-id="' + data.id + '" title="Edit">\
+                    button += '<button class="btn btn-sm btn-outline-warning edit" data-id="' + data.id + '" data-noakshort="' + data.noakshort + '" title="Edit">\
                                     <i class="fa fa-edit"></i>\
                                 </button>\
                                 ';
                 }
 
-                button += '<button class="btn btn-sm btn-outline-info detail" data-id="' + data.id + '" title="Detail">\
+                button += '<button class="btn btn-sm btn-outline-info detail" data-id="' + data.id + '" data-noakshort="' + data.noakshort + '" title="Detail">\
                                         <i class="fa fa-eye"></i>\
                                     </button>\
                                     ';
 
                 if (auth_delete == "1") {
-                    button += '<button class="btn btn-sm btn-outline-danger delete" data-id="' + data.id + '" title="Delete">\
+                    button += '<button class="btn btn-sm btn-outline-danger delete" data-id="' + data.id + '" data-noakshort="' + data.noakshort + '" title="Delete">\
                                         <i class="fa fa-trash-o"></i>\
                                     </button>';
                 }
