@@ -591,7 +591,7 @@
                             $('#newdatapelanggaranpujian').modal("show");
                             // $('#addform').trigger("reset");
 
-                            console.log(result.data['tahun_ajaran']);
+                           // console.log(result.data['tahun_ajaran']);
 
                         } else {
                             Swal.fire('Error', result.message, 'error');
@@ -607,7 +607,7 @@
             
 
         }) .on('click', '.upload', function() {
-            console.log($(this).attr('data-bulan'))
+           // console.log($(this).attr('data-bulan'))
             if ($(this).attr('data-bulan')=='null') {
                 // Swal.fire('Info', 'Mohon Pilih bulan kejadian terlebih dahulu', 'info');
                 $('#bulan').select2('open');

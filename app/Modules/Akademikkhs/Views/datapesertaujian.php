@@ -187,7 +187,7 @@
                 success: function(result) {
                     if (result.success) {
                         if (result.data.length > 0) {
-                            console.log(result.data);
+                           // console.log(result.data);
                             loadTable(result);
                             $('#d-pdf').show();
                         } else {
@@ -393,7 +393,7 @@
         $('#table-card').show();
         var element = '';
         result.data.forEach(function(data, index) {
-            console.log(data);
+           // console.log(data);
             var status_uts = data.is_uts === "1" ? '<span class="item-status-uts badge text-uppercase bg-success">' +
                 "Layak" +
                 '</span>' : '<span class="item-status-uts badge text-uppercase bg-danger">' +

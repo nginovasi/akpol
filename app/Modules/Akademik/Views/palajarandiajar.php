@@ -205,7 +205,7 @@
         }).on('submit', '#verifikasitaruna', function(e) {
             e.preventDefault();
             let $this = $(this);
-            console.log($this);
+           // console.log($this);
 
             Swal.fire({
                 title: "Verifikasi data ?",

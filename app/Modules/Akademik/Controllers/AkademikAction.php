@@ -279,6 +279,7 @@ class AkademikAction extends BaseController
         parent::_authInsert(function () {
             $userid = $this->session->get('id');
             $data = array();
+           
 
             if (isset($_POST['is_verif']) == 1) {
                 for ($i = 0; $i < count($_POST['id_program_studi_mata_pelajaran']); $i++) {
@@ -286,11 +287,14 @@ class AkademikAction extends BaseController
                         'id' => $_POST['id_program_studi_mata_pelajaran'][$i],
                         'is_verif' => 1,
                         'verif_at' => date("Y-m-d H:i:s"),
-                        'verif_by' => $userid
+                        'verif_by' => $userid,
+                       
+                        
                     );
                     array_push($data, $dataarray);
                 }
             } else {
+          
 
                 for ($i = 0; $i < count($_POST['id_mata_pelajaran']); $i++) {
                     $dataarray = array(
@@ -304,7 +308,8 @@ class AkademikAction extends BaseController
                         'id_aspek' => $_POST['id_aspek'][$i],
                         'satuan' => $_POST['satuan'][$i],
                         'nilai' => $_POST['nilai'][$i],
-                        'jumlah_pertemuan' => $_POST['jumlah_pertemuan'][$i]
+                        'jumlah_pertemuan' => $_POST['jumlah_pertemuan'][$i],
+                      
 
                     );
                     array_push($data, $dataarray);
@@ -313,7 +318,15 @@ class AkademikAction extends BaseController
                     for ($i = 0; $i < count($_POST['is_deleted']); $i++) {
                         $dataarray = array(
                             'id' => $_POST['is_deleted'][$i],
-                            'is_deleted' => 1
+                            'is_deleted' => 1,
+                            'id_mata_pelajaran' => null,
+                            'id_batalyon' => null,
+                            'id_semester' => null,
+                            'id_aspek' => null,
+                            'id_mata_pelajaran_del' => $_POST['id_mata_pelajaran'][$i],
+                            'id_semester_del' => $_POST['id_semester'],
+                            'id_batalyon_del' => $_POST['id_batalyon'],
+                            'id_aspek_del' => $_POST['id_aspek'][$i]
                         );
                         array_push($data, $dataarray);
                     }
@@ -749,7 +762,6 @@ class AkademikAction extends BaseController
     function datajadwal_load()
     {
         parent::_authLoad(function () {
-
             echo parent::_httpPost('/web/akademik/datajadwal_load', ["param" => json_encode($this->request->getPost())]);
         });
     }
@@ -757,7 +769,6 @@ class AkademikAction extends BaseController
     function datajadwal_save()
     {
         parent::_authEdit(function () {
-
             echo parent::_httpPost('/web/akademik/datajadwal_save', ["param" => json_encode($this->request->getPost())]);
         });
     }
@@ -765,7 +776,6 @@ class AkademikAction extends BaseController
     function datajadwal_edit()
     {
         parent::_authEdit(function () {
-
             echo parent::_httpPost('/web/akademik/datajadwal_edit', ["param" => json_encode($this->request->getPost())]);
         });
     }
@@ -774,11 +784,10 @@ class AkademikAction extends BaseController
     {
         parent::_authDelete(function () {
             $userid = $this->session->get('id');
-
             echo parent::_httpPost('/web/akademik/datajadwal_delete', ["param" => json_encode($this->request->getPost()), "userid" => $userid]);
         });
     }
-    // End Data pengampu hanjar
+    // End Data datajadwal
 
 
     // Begin Data Bahan Ajar

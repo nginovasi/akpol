@@ -521,7 +521,7 @@ $tgl = tgl_indo(date('Y-m-d'));
 
         $(document).on("click", ".button_modal", function(e) {
             $('#modal-detailakademik').modal('show');
-            console.log($(this).data('content'));
+           // console.log($(this).data('content'));
             $('#kalenderakademik').attr('src', $(this).data('content'));
         })
     // });
@@ -795,7 +795,7 @@ $tgl = tgl_indo(date('Y-m-d'));
             var elm = '';
             var no = 0;
             pelanggaran.forEach(function(list, index) {
-                console.log(list)
+               // console.log(list)
                 no++;
                 elm += '\
                         <div class="list-item " data-id="8" style="visibility: visible; transform: none; opacity: 1; transition: none 0s ease 0s;">\

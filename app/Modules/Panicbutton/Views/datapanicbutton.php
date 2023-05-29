@@ -368,7 +368,7 @@
                         }
                         $('#nama_user_pendidik_modal').html('Ketua Tim Pendidik : ' + result.data.nama_user_pendidik)
                         result.list.forEach((value, index) => {
-                            console.log(value);
+                           // console.log(value);
                             var is_ujian = "Tidak";
                             if(value.is_ujian === "1"){
                                 is_ujian = "UTS"

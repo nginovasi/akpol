@@ -168,7 +168,7 @@
         coreEvents.editHandler = {
             placeholder: '',
             afterAction: function(result) {
-                console.log(result.data);
+               // console.log(result.data);
                 setTimeout(function() {
                     select2Array.forEach(function(x) {
                         $('#' + x.id).select2('trigger', 'select', {

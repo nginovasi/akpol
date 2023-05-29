@@ -414,7 +414,7 @@
                               confirmButtonText: 'Simpan',
                               showLoaderOnConfirm: true,
                               preConfirm: (login) => {
-                                console.log(login);
+                               // console.log(login);
                                 formData.append('token_otp', login);
                               },
                               allowOutsideClick: () => !Swal.isLoading()
@@ -506,8 +506,8 @@
                 cek_data_null.push(data_json['id_kec_ktp']);
                 cek_data_null.push(data_json['id_kel_ktp']);
 
-                console.log(otherThanNull(cek_data_null));
-                console.log(cek_data_null);
+               // console.log(otherThanNull(cek_data_null));
+               // console.log(cek_data_null);
 
                 if (otherThanNull(cek_data_null)==true) {
                     // $('#lengkapi-data-pendidik').modal('show');

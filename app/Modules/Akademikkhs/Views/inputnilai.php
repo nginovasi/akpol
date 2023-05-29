@@ -465,7 +465,7 @@
                     },
                     allowEmpty: false,
                     validator: function(value, callback) {
-                        console.log(result.data[0].id_semester);
+                       // console.log(result.data[0].id_semester);
                         // check if semester 7 and 8 then value always 0
                         // if (semester == 7 || semester == 8) {
                         //     return true;

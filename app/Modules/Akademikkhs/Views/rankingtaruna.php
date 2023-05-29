@@ -722,7 +722,7 @@
             dataType: 'json',
             success: function(result) {
                 Swal.close();
-                console.log(result);
+               // console.log(result);
                 if (result.success) {
                     var image_url;
                     if (result.data.photopath) {

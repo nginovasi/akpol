@@ -163,14 +163,14 @@
                 e.originalEvent.dataTransfer.effectAllowed = "move";
                 e.originalEvent.dataTransfer.setData("text/plain", this.id);
             }).on("drag", function (e) {
-                console.log('b');
+               // console.log('b');
                 /// This event is fired at the source of the drag, that is, the element where dragstart
                 /// was fired, during the drag operation.
             }).on("dragend", function (e) {
                 /// The source of the drag will receive a dragend event when the drag operation is complete,
                 /// whether it was successful or not.
                 var dropEffect = e.originalEvent.dataTransfer.dropEffect;
-                console.log(dropEffect);
+               // console.log(dropEffect);
                 switch (dropEffect) {
                     case "copy":
                         /// Falling through to "move" because Chrome on Windows has a bug that makes it
@@ -703,7 +703,7 @@
                                                             </tr>';
                                                             var obj = JSON.parse(list.data_unit);
                                                                 obj.forEach (function(isi) {
-                                                                    console.log(isi.id_pertemuan);
+                                                                   // console.log(isi.id_pertemuan);
                                                                     tabel += '<tr data-time="">\
                                                                                     <th scope="row" height="60px">'+isi.unit_pertemuan+'</th>\
                                                                                     <th scope="row" >'+isi.jam_mulai+' - '+isi.jam_selesai+'</th>';

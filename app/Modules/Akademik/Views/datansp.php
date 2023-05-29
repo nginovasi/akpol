@@ -132,7 +132,7 @@
     var approve;
 
     $(document).ready(function(){
-        console.log(usertype)
+       // console.log(usertype)
         coreEvents = new CoreEvents();
         coreEvents.url = url;
         coreEvents.ajax = url_ajax;

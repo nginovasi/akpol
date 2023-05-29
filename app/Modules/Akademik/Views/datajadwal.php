@@ -417,6 +417,7 @@
 
 	const url = '<?= base_url() . "/" . uri_segment(0) . "/action/" . uri_segment(1) ?>';
 
+	var coreEvents;
 
 	var dataStart = 0;
 	var table;
@@ -487,6 +488,7 @@
 				data: $this.serialize(),
 				dataType: 'json',
 				success: function(result) {
+					// console.log(result);
 					Swal.close();
 					if (result.success) {
 						if (result.data.header.length == 0) {
@@ -495,14 +497,13 @@
 							Swal.fire('Error', "Maaf Kelompok Tidak Ditemukan", 'info');
 						} else {
 							var tabel = '';
-							tabel += '<table class="table table-striped table-bordered">\
+							tabel += `<table class="table table-striped table-bordered">\
 										<thead class="cal-thead">\
 											<tr>\
-												<th rowspan="2" class="cal-viewmonth" id="changemonth" >Hari</th>\
-									';
+												<th rowspan="2" class="cal-viewmonth" id="changemonth" >Hari</th>`;
 							dataStart = 0;
 
-							var objheader = result.data.header;
+							var objheader = result.data.header; //header table
 							var orderobjheader = objheader.sort((a, b) => parseFloat(a.id_kelompok) - parseFloat(b.id_kelompok));
 
 							result.data.header.forEach(function(list) {
@@ -511,12 +512,10 @@
 								dataStart++;
 							});
 
-							tabel += '\
-										</tr>\
-											<tr class="row2">\
-									';
+							tabel += '</tr><tr class="row2">';
 
 							dataStart = 0;
+
 							result.data.header.forEach(function(list) {
 								tabel += '<th class="cal-toprow" style="background-color: ' + colorTabelfooter[dataStart] + ' !important;">\
 											<select class="form-control select2kelas" id="' + list.nama_kelompok.replaceAll(' ', '_') + '" name="id_kelompok[]" required></select>\
@@ -524,35 +523,42 @@
 								dataStart++;
 							});
 
-							tabel += '\
-										</tr>\
-										</thead>\
-										<tbody class="cal-tbody">';
+							tabel += '</tr></thead><tbody class="cal-tbody">';
 
 							result.data.body.forEach(function(list) {
 								var arrhari = new Date(list.tanggal);
-								tabel += '\
-											<tr id="' + list.tanggal.replaceAll('-', '_') + '">\
+								tabel += 	'<tr id="' + list.tanggal.replaceAll('-', '_') + '">\
 												<td class="cal-usersheader" style="color:#fff; background-color:#389fe8; padding: 0px;">' + days[arrhari.getDay()] + ', ' + list.tanggal + '</td>\
 												<td colspan="' + parseInt(result.data.header.length) + '" class="cal-usersheader" style="color:#000; background-color:#389fe8; padding: 0px;"></td>\
-											</tr>\
-											';
+											</tr>';
 								var obj = JSON.parse(list.data_unit);
 								var orderobj = obj.sort((a, b) => parseFloat(a.jam_mulai) - parseFloat(b.jam_mulai));
 								orderobj.forEach(function(isi) {
-									tabel += '<tr id="u2">';
+									tabel += `<tr id="u2">`;
 
 									if (isi.id_pertemuan == 1) {
-										tabel += '<td class="cal-userinfo" data-unitpertemuan="' + isi.id_pertemuan + '" data-dateheaderr="' + list.tanggal + '" style="height : 45px" align="center">'
+										tabel += '<td class="cal-userinfo" \
+													data-unitpertemuan="' + isi.id_pertemuan + '" \
+													data-dateheaderr="' + list.tanggal + '" \
+													style="height : 45px" \
+													align="center">'
 									} else if (isi.id_pertemuan == 5) {
-										tabel += '<td class="cal-userinfo" data-unitpertemuan="' + isi.id_pertemuan + '" data-dateheaderr="' + list.tanggal + '" style="height : 45px" align="center">'
+										tabel += '<td class="cal-userinfo" \
+													data-unitpertemuan="' + isi.id_pertemuan + '" \
+													data-dateheaderr="' + list.tanggal + '" \
+													style="height : 45px" \
+													align="center">'
 									} else {
-										tabel += '<td class="cal-userinfo" data-unitpertemuan="' + isi.id_pertemuan + '" data-dateheaderr="' + list.tanggal + '" align="center" >'
+										tabel += '<td class="cal-userinfo" \
+													data-unitpertemuan="' + isi.id_pertemuan + '" \
+													data-dateheaderr="' + list.tanggal + '" \
+													align="center" >'
 									}
 
-									tabel += ' <span><b>' + isi.unit_pertemuan + '<span></span></span>\
+									tabel += ' <span><b>' + isi.unit_pertemuan + '</b></span>\
 													<div class="cal-usercounter">\
-														<span class="cal-userbadge badge badge-light">' + isi.jam_mulai + '</span><span class="cal-userbadge badge badge-warning">' + isi.jam_selesai + '</span>\
+														<span class="cal-userbadge badge badge-light">' + isi.jam_mulai + '</span>\
+														<span class="cal-userbadge badge badge-warning">' + isi.jam_selesai + '</span>\
 													</div>\
 													<div class="cal-userarrows">\
 														<i class="up mdi mdi-arrow-up-bold"></i><i class="down mdi mdi-arrow-down-bold"></i>\
@@ -561,19 +567,32 @@
 											';
 									if (isi.id_pertemuan == 1) {
 										result.data.header.forEach(function(head) {
-											tabel += '<td class="weekend cal-userinfo" style="height : 45px; text-align: center;  padding: 11px !important; background : #d9d9d9">Olah Raga Pagi</td>';
-										})
+											tabel += '<td class="weekend cal-userinfo" style="height : 45px; text-align: center;  padding: 11px !important; background : #d9d9d9">Olahraga Pagi</td>';
+										});
 									} else if (isi.id_pertemuan == 5) {
 										result.data.header.forEach(function(head) {
-											tabel += '<td class="weekend ui-userinfo" data-date="' + list.tanggal + '" data-namakelompoktaruna="' + head.nama_kelompok.replaceAll(' ', '_') + '"style="height : 45px; text-align: center; padding: 11px !important; background : #d9d9d9" >Isoma</td>';
-										})
+											tabel += '<td class="weekend ui-userinfo" \
+														data-date="' + list.tanggal + '" \
+														data-namakelompoktaruna="' + head.nama_kelompok.replaceAll(' ', '_') + '" \
+														style="height : 45px; text-align: center; padding: 11px !important; background : #d9d9d9" >Isoma</td>';
+										});
 									} else {
 										dataStart = 0;
 										result.data.header.forEach(function(head) {
 											if (list.kunci == 1) {
-												tabel += '<td class="weekend ui-userinfo" style="background-color: ' + colorTabel[dataStart] + ' !important;" id=' + list.tanggal + '_' + isi.id_pertemuan + '_' + head.id_kelompok + '></td>';
+												tabel += '<td class="weekend ui-userinfo" \
+															style="background-color: ' + colorTabel[dataStart] + ' !important;" \
+															id="' + list.tanggal + '_' + isi.id_pertemuan + '_' + head.id_kelompok + '"></td>';
 											} else {
-												tabel += '<td class="ui-droppable" style="background-color: ' + colorTabel[dataStart] + ' !important;" data-date="' + list.tanggal + '" data-unit="' + isi.id_pertemuan + '" data-kelompoktaruna="' + head.id_kelompok + '"data-namakelompoktaruna="' + head.nama_kelompok.replaceAll(' ', '_') + '" id=' + list.tanggal + '_' + isi.id_pertemuan + '_' + head.id_kelompok + 'data-jammulai="' + isi.jam_mulai + '"data-jamselesai="' + isi.jam_selesai + '"></td>';
+												tabel += '<td class="ui-droppable" \
+															style="background-color:' + colorTabel[dataStart] + ' !important;" \
+															data-date="' + list.tanggal + '" \
+															data-unit="' + isi.id_pertemuan + '" \
+															data-kelompoktaruna="' + head.id_kelompok + '" \
+															data-namakelompoktaruna="' + head.nama_kelompok.replaceAll(' ', '_') + '" \
+															id="' + list.tanggal + '_' + isi.id_pertemuan + '_' + head.id_kelompok + '" \
+															data-jammulai="' + isi.jam_mulai + '" \
+															data-jamselesai="' + isi.jam_selesai + '"></td>';
 											}
 											dataStart++;
 										});
@@ -583,17 +602,24 @@
 							});
 
 							tabel += `<tbody>
-										<thead >
+										<thead>
 										<tr class="a">
 											<th rowspan="2" class="cal-viewmonth" id="changemonth" style="background-color : #d9d9d9; height: 123px">
 												<select class="form-control select2matapalajaran" id="mata_pelajaran"  name="mata_pelajaran" required></select>
 											</th>`;
 							dataStart = 0;
 							result.data.header.forEach(function(list) {
-								tabel += '<td class="ui-droppable reloadlistjadwal" style="background-color: ' + colorTabelfooter[dataStart] + ' !important;" data-date="2000-01-01" data-userid="' + list.id_kelompok + '" id="' + list.id_kelompok + '_' + list.nama_kelompok.replaceAll(' ', '_') + '" data-kelompoktaruna=' + list.id_kelompok + ' data-unit="' + list.id_kelompok + '"></td>';
+								tabel += '<td class="ui-droppable reloadlistjadwal" \
+											style="background-color: ' + colorTabelfooter[dataStart] + ' !important;" \
+											data-date="2000-01-01" \
+											data-userid="' + list.id_kelompok + '" \
+											id="' + list.id_kelompok + '_' + list.nama_kelompok.replaceAll(' ', '_') + '" \
+											data-kelompoktaruna="' + list.id_kelompok + '" \
+											data-unit="' + list.id_kelompok + '"></td>';
 								dataStart++;
 							});
 							tabel += `</tr></thead></table>`;
+
 							$('#data_tabel_jadwal').html(tabel);
 							select2();
 
@@ -610,29 +636,27 @@
 								if (content.kunci == 1) {
 									isikontent += '<div class="details ui-draggable ui-draggable-handle" \
 														data-taskid="' + content.tanggal + '_' + content.id_jam_pertemuan + '_' + content.id_kelompok_taruna + '"\
-														data-userid="' + content.id_jam_pertemuan + '"\
-														data-satuanjenis="' + content.satuan + '"\
-														data-idjadwal="' + content.id_jadwal + '"\
-														data-idbahanajar="' + content.id_bahan_ajar + '"\
-														data-iduserpendidik="' + content.id_user_pendidik + '"\
-														\
+														data-userid="' + content.id_jam_pertemuan + '" \
+														data-satuanjenis="' + content.satuan + '" \
+														data-idjadwal="' + content.id_jadwal + '" \
+														data-idbahanajar="' + content.id_bahan_ajar + '" \
+														data-iduserpendidik="' + content.id_user_pendidik + '" \
 														style="border-left: 5px solid ' + colorr[content.id_kelompok_taruna] + '; position: relative;">';
 
 								} else {
 									isikontent += '<div class="drag details ui-draggable ui-draggable-handle" \
 														data-taskid="' + content.tanggal + '_' + content.id_jam_pertemuan + '_' + content.id_kelompok_taruna + '"\
-														data-userid="' + content.id_jam_pertemuan + '"\
-														data-satuanjenis="' + content.satuan + '"\
-														data-idjadwal="' + content.id_jadwal + '"\
-														data-idbahanajar="' + content.id_bahan_ajar + '"\
-														data-iduserpendidik="' + content.id_user_pendidik + '"\
-														data-idmatapelajaran="' + content.id_mata_pelajaran + '"\
-														\
+														data-userid="' + content.id_jam_pertemuan + '" \
+														data-satuanjenis="' + content.satuan + '" \
+														data-idjadwal="' + content.id_jadwal + '" \
+														data-idbahanajar="' + content.id_bahan_ajar + '" \
+														data-iduserpendidik="' + content.id_user_pendidik + '" \
+														data-idmatapelajaran="' + content.id_mata_pelajaran + '" \
 														style="border-left: 5px solid ' + colorr[content.id_kelompok_taruna] + '; position: relative;">';
 								}
 
 								isikontent += '\
-												<h3 class="details-task" style=" background: ' + colorr[content.id_kelompok_taruna] + '; color: #FFFFFF ;     overflow: hidden; white-space: nowrap; text-overflow: ellipsis;max-width: 142px;">' + content.kode_mk + ' - ' + content.mata_pelajaran + '</h3>\
+												<h3 class="details-task" style=" background: ' + colorr[content.id_kelompok_taruna] + '; color: #FFFFFF; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 142px;">' + content.kode_mk + ' - ' + content.mata_pelajaran + '</h3>\
 												<div class="details-uren row"  >\
 													<div class="col-5" align="left" style="padding-left: 0; padding-right: 0;">';
 
@@ -647,7 +671,7 @@
 								}
 
 								isikontent += '</div>\
-														<div class="col-7" align="right" style="padding-left: 5px; padding-right: 0; overflow: hidden;white-space: nowrap;text-overflow: ellipsis;max-width: 120px;">' + content.nama_pendidik + '</div>\
+													<div class="col-7" align="right" style="padding-left: 5px; padding-right: 0; overflow: hidden;white-space: nowrap;text-overflow: ellipsis;max-width: 120px;">' + content.nama_pendidik + '</div>\
 													</div>\
 												</div>';
 
@@ -660,9 +684,7 @@
 									var newDate = $('#' + content.tanggal + '_' + content.id_jam_pertemuan + '_' + content.id_kelompok_taruna).data('date');
 									document.querySelectorAll("tr [data-namakelompoktaruna='" + namakelompoktaruna + "'][data-date='" + newDate + "'] ").forEach(
 										function(el) {
-											if (el.children.item(0) == null) {} else {
-												satuhari = el;
-											}
+											if (el.children.item(0) != null) {satuhari = el;}
 											el.remove();
 										}
 									);
@@ -693,16 +715,20 @@
 
 							if (verif == 0) {
 								$('#_verif').html("Belum di verifikasi");
-								$('#_buttonverif').html('<button class="btn btn-sm btn-outline-success verif" data-id_batalyon="' + $('#id_batalyon').val() + '"data-tanggal="' + $('#tanggal').val() + '" title="Verif">\
-																				<i class="fa fa-check"></i>\
-																		</button>');
+								$('#_buttonverif').html('<button class="btn btn-sm btn-outline-success verif" \
+															data-id_batalyon="' + $('#id_batalyon').val() + '" \
+															data-tanggal="' + $('#tanggal').val() + '" title="Verif">\
+															<i class="fa fa-check"></i>\
+														</button>');
 
 							} else {
 								if (result.data.content.length == 0) {
 									$('#_verif').html("Belum di verifikasi");
-									$('#_buttonverif').html('<button class="btn btn-sm btn-outline-success verif" data-id_batalyon="' + $('#id_batalyon').val() + '"data-tanggal="' + $('#tanggal').val() + '" title="Verif">\
-																				<i class="fa fa-check"></i>\
-																		</button>');
+									$('#_buttonverif').html('<button class="btn btn-sm btn-outline-success verif" \
+																data-id_batalyon="' + $('#id_batalyon').val() + '" \
+																data-tanggal="' + $('#tanggal').val() + '" title="Verif">\
+																<i class="fa fa-check"></i>\
+															</button>');
 								} else {
 									$('#_verif').html("Sudah di verifikasi");
 									$('#_buttonverif').html('');
@@ -753,7 +779,7 @@
 								$('#_buttonverif').html('');
 								Swal.fire('Sukses', 'Berhasil memverifikasi data paket mata kuliah', 'success');
 								// table.ajax.reload();
-								coreEvents.table.ajax.reload();
+								// coreEvents.table.ajax.reload();
 							} else {
 								Swal.fire('Error', result.message, 'error');
 							}
@@ -881,7 +907,7 @@
 				},
 				dataType: 'json',
 				success: function(result) {
-					console.log(result);
+					// console.log(result);
 					Swal.close();
 					if (result.success) {
 						$("div").find('[data-taskid=' + taskid + ']').remove();
@@ -1231,45 +1257,40 @@
 							var objlimit2 = orderobj.slice(0, 2);
 							objlimit2.forEach(function(isi) {
 
-								contenttd += '<div class="drag details ui-draggable ui-draggable-handle" data-taskid="2000-01-01_' + list['id_kelompok'] + '_' + isi.id_bahan_ajar + '" data-userid="' + isi.id_bahan_ajar + '"\
-																										data-idjadwal=""\
-																						data-idbahanajar="' + isi.id_bahan_ajar + '"\
-																						data-iduserpendidik="' + isi.id_user_pendidik + '"\
-																						data-satuanjenis="' + isi.satuan + '"\
-																						data-idmatapelajaran="' + isi.id_mata_pelajaran + '" style="border-left: 5px solid ' + colorr[list.id_kelompok] + '; position: relative;">\
-																					 <h3 class="details-task" style=" background: ' + colorr[list.id_kelompok] + '; color: #FFFFFF ;     overflow: hidden; white-space: nowrap; text-overflow: ellipsis;max-width: 142px;">' + isi.kode_mk + ' - ' + isi.mata_pelajaran + '</h3>\
-																					 <div class="details-uren row">\
-																						 <div class="col-5" align="left" style="padding-left: 0; padding-right: 0;">';
+								contenttd += '<div class="drag details ui-draggable ui-draggable-handle" \
+													data-taskid="2000-01-01_' + list['id_kelompok'] + '_' + isi.id_bahan_ajar + '" \
+													data-userid="' + isi.id_bahan_ajar + '" data-idjadwal="" \
+													data-idbahanajar="' + isi.id_bahan_ajar + '" \
+													data-iduserpendidik="' + isi.id_user_pendidik + '" \
+													data-satuanjenis="' + isi.satuan + '" \
+													data-idmatapelajaran="' + isi.id_mata_pelajaran + '" \
+													style="border-left: 5px solid ' + colorr[list.id_kelompok] + '; position: relative;">\
+												<h3 class="details-task" \
+													style="background: ' + colorr[list.id_kelompok] + '; color: #FFFFFF; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;max-width: 142px;">' + isi.kode_mk + ' - ' + isi.mata_pelajaran + '</h3>\
+												<div class="details-uren row">\
+													<div class="col-5" align="left" style="padding-left: 0; padding-right: 0;">';
 								// if (isi.is_ujian=='1') {
 								if (isi.id_jenis_ujian == '1') {
 									contenttd += "UTS";
-
 								} else if (isi.id_jenis_ujian == '2') {
 									contenttd += "UAS";
-
 								} else if (isi.id_jenis_ujian == '0') {
 									contenttd += isi.jumlah_pertemuan + '-' + isi.pertemuan_ke + ' = ' + isi.sisa_pertemuan;
-
 								}
 
 								// } else {
 								//    contenttd += isi.jumlah_pertemuan+'-'+isi.pertemuan_ke+' = '+isi.sisa_pertemuan;
 								// }
 								contenttd += '</div>\
-																						 <div class="col-7" align="right" style="padding-left: 5px; padding-right: 0; overflow: hidden;white-space: nowrap;text-overflow: ellipsis;max-width: 120px;">\
-																							 ' + isi.nama_pendidik + '\
-																						 </div>\
-																					 </div>\
-																				 </div>';
+													<div class="col-7" align="right" style="padding-left: 5px; padding-right: 0; overflow: hidden;white-space: nowrap;text-overflow: ellipsis;max-width: 120px;">' + isi.nama_pendidik + '</div>\
+												</div>\
+											</div>';
 							});
 
 							$('#' + list['id_kelompok'] + '_' + list['kelompok'].replaceAll(' ', '_')).html(contenttd);
 
-
-						})
-
+						});
 						dragable();
-
 					} else {
 						Swal.fire('Error', result.message, 'error');
 					}
@@ -1307,18 +1328,16 @@
 				if (result.success) {
 					toastr.success('Berhasil Menyimpan Jadwal');
 					$('#_verif').html("Belum di verifikasi");
-					$('#_buttonverif').html('<button class="btn btn-sm btn-outline-success verif" data-id_batalyon="' + $('#id_batalyon').val() + '"data-tanggal="' + $('#tanggal').val() + '" title="Verif">\
-															<i class="fa fa-check"></i>\
-													</button>');
+					$('#_buttonverif').html('<button class="btn btn-sm btn-outline-success verif" \
+												data-id_batalyon="' + $('#id_batalyon').val() + '" \
+												data-tanggal="' + $('#tanggal').val() + '" title="Verif">\
+													<i class="fa fa-check"></i>\
+											</button>');
 
 					if (idjadwal == '') {
-
 						// console.log($("div [data-taskid='"+taskid+"']").parent().html());
 						$("div [data-taskid='" + taskid + "']").attr('data-idjadwal', result.message);
-
 					}
-
-
 				} else {
 					toastr.success('Gagal Menyimpan Jadwal')
 				}

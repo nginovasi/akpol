@@ -660,7 +660,7 @@
                                 }
                             },
                             error: function(err) {
-                                console.log(err);
+                               // console.log(err);
                                 Swal.close();
                                 Swal.fire('Error', 'Terjadi kesalahan pada server', 'error');
                             }
@@ -1021,6 +1021,195 @@
 
         $("#id_gender").select2({
             placeholder: 'Pilih Jenis Kelamin'
+        });
+
+        // nik only number
+        $('#nik').on('keypress', function(e) {
+            return (e.charCode >= 48 && e.charCode <= 57) || e.charCode == 0;
+        });
+
+        // noaklong only number
+        $('#noaklong').on('keypress', function(e) {
+            return (e.charCode >= 48 && e.charCode <= 57) || e.charCode == 0;
+        });
+
+        $('#nik').on('change', function() {
+            let nik = $(this).val();
+            if (nik.length == 16) {
+                $.ajax({
+                    url: url_ajax + '/check_nik',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        nik: nik,
+                        <?= csrf_token() ?>: '<?= csrf_hash() ?>'
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Warning',
+                                text: data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            $('#nik').val('');
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: data.message,
+                                showConfirmButton: false,
+                                timer: 2500
+                            });
+                        }
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Terjadi Kesalahan',
+                            showConfirmButton: false,
+                            timer: 2500
+                        });
+                    }
+                });
+            } else if (nik.length > 16) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Warning',
+                    text: 'NIK tidak boleh lebih dari 16 digit',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                $('#nik').val('');
+            }
+        });
+
+        $('#noaklong').on('change', function() {
+            let noaklong = $(this).val();
+            $.ajax({
+                url: url_ajax + '/check_noaklong',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    noaklong: noaklong,
+                    <?= csrf_token() ?>: '<?= csrf_hash() ?>'
+                },
+                success: function(data) {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Warning',
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        $('#noaklong').val('');
+                    } else {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 2500
+                        });
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Terjadi Kesalahan',
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                }
+            });
+        });
+
+        $('#email').on('change', function() {
+            let email = $(this).val();
+            if (email.length > 5) {
+                $.ajax({
+                    url: url_ajax + '/check_email',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        email: email,
+                        <?= csrf_token() ?>: '<?= csrf_hash() ?>'
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Warning',
+                                text: data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            $('#email').val('');
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: data.message,
+                                showConfirmButton: false,
+                                timer: 2500
+                            });
+                        }
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Terjadi Kesalahan',
+                            showConfirmButton: false,
+                            timer: 2500
+                        });
+                    }
+                });
+            }
+        });
+
+        $('#telp').on('change', function() {
+            let telp = $(this).val();
+            if (telp.length > 5) {
+                $.ajax({
+                    url: url_ajax + '/check_telp',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        telp: telp,
+                        <?= csrf_token() ?>: '<?= csrf_hash() ?>'
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Warning',
+                                text: data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            $('#telp').val('');
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: data.message,
+                                showConfirmButton: false,
+                                timer: 2500
+                            });
+                        }
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Terjadi Kesalahan',
+                            showConfirmButton: false,
+                            timer: 2500
+                        });
+                    }
+                });
+            }
         });
     });
 

@@ -852,7 +852,7 @@
                   },
                   dataType: 'json',
                   success: function(result){
-                      console.log(result);
+                     // console.log(result);
                       Swal.close();
                       if(result.success){
                         $("div").find('[data-taskid='+taskid+']').remove();
@@ -905,7 +905,7 @@
         iduserpendidik = drag.data("iduserpendidik"),
         taskid = drag.data("taskid")
         
-        console.log(drag.last().attr("data-idjadwal") );
+       // console.log(drag.last().attr("data-idjadwal") );
 
 
           ;   // Task userid on drop

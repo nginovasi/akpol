@@ -92,6 +92,7 @@
                                         <tr class="counting">
                                             <td>1</td>
                                             <td><input type="hidden" name="id[0]"> <select class="form-control sel2 select2matkul" name="id_mata_pelajaran[0]" onchange="mypendidik(0)"></select></td>
+                                            <!-- <td><select type="hidden" name="id_mata_pelajaran_del[0]"></select></td> -->
                                             <td><select class="form-control sel2 select2aspek" name="id_aspek[0]" onchange="myFunction(0)"></select></td>
                                             <td><select class="form-control sel2 select2satuan" name="satuan[0]" onchange="myFunction(0)">
                                                     <option value="sks">SKS</option>
@@ -235,7 +236,7 @@
         coreEvents.insertHandler = {
             placeholder: 'Berhasil menyimpan data paket mata kuliah',
             afterAction: function(result) {
-                console.log(result);
+               // console.log(result);
                 $("#data-mata_pelajaran tbody").html("");
                 $("#datadelete").html("");
                 addrows();
@@ -478,7 +479,7 @@
                 $("#data-mata_pelajaran").find("input.nilai").last().focus();
 
             } else {
-                console.log($("#data-mata_pelajaran").find("input.nilai").last().val());
+               // console.log($("#data-mata_pelajaran").find("input.nilai").last().val());
                 addrows();
             }
 
@@ -816,8 +817,8 @@
             if ($("#id_batalyon").val() == null) {
                 // alert('Mohon Pilih Batalyon');
             } else {
-                console.log($("select[name='id_mata_pelajaran[" + x + "]']").val());
-                console.log($("#id_batalyon").val());
+               // console.log($("select[name='id_mata_pelajaran[" + x + "]']").val());
+               // console.log($("#id_batalyon").val());
             }
 
         } else {

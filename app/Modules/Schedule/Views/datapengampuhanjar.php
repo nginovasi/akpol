@@ -490,7 +490,9 @@
 
     function addselect2() {
         $('.select2pendidik').select2({
-            id: function(e) {return e.id},
+            id: function(e) {
+                return e.id
+            },
             placeholder: '',
             multiple: false,
             ajax: {
@@ -536,23 +538,49 @@
         });
     }
 
+
+    $(document).on('change', 'input[type="checkbox"][name^="is_ketua_tim"]', function() {
+        if ($(this).is(':checked')) {
+            $('input[type="checkbox"][name^="is_ketua_tim"]').not(this).prop('checked', false);
+        }
+    });
+
     function addrows() {
         var count = $('tr.counting').length;
         var $row = $("<tr class='counting'>");
-        $row.append($("<td>").html(count + 1 + '.'));
+        $row.append($("<td>").html(count + 0 + '.'));
         $row.append($("<td>").html('<input type="hidden" name="id[' + count + ']" > <select class="form-control sel2 select2pendidik" style="width:100%" name="id_pendidik[' + count + ']" required></select>'));
-        // check if last ui-switch has checked
+
         var lastChecked = $("#data-pendidik tbody tr:last-child td:eq(2) input").is(":checked");
         if (lastChecked) {
             $row.append($("<td>").html('<label class="ui-switch ui-switch-md info m-t-xs"><input type="checkbox" name="is_ketua_tim[' + count + ']" value="0" ><i></i></label>'));
         } else {
             $row.append($("<td>").html('<label class="ui-switch ui-switch-md info m-t-xs"><input type="checkbox" name="is_ketua_tim[' + count + ']" value="0" ><i></i></label>'));
         }
-        // $row.append($("<td>").html('<label class="ui-switch ui-switch-md info m-t-xs"><input type="checkbox" name="is_ketua_tim[' + count + ']" value="1" ><i></i></label>'));
+
         $row.append($("<td>").html("<a class='del-data-pendidik' href='#' title='Click to remove this entry'><i class='fa fa-trash-o'></i></a>"));
         $row.appendTo($("#data-pendidik tbody"));
         addselect2();
     }
+
+
+    // function addrows() {
+    //     var count = $('tr.counting').length;
+    //     var $row = $("<tr class='counting'>");
+    //     $row.append($("<td>").html(count + 1 + '.'));
+    //     $row.append($("<td>").html('<input type="hidden" name="id[' + count + ']" > <select class="form-control sel2 select2pendidik" style="width:100%" name="id_pendidik[' + count + ']" required></select>'));
+    //     // check if last ui-switch has checked
+    //     var lastChecked = $("#data-pendidik tbody tr:last-child td:eq(2) input").is(":checked");
+    //     if (lastChecked) {
+    //         $row.append($("<td>").html('<label class="checkbox-md info m-t-xs"><input type="checkbox" name="is_ketua_tim[' + count + ']" value="0" ><i></i></label>'));
+    //     } else {
+    //         $row.append($("<td>").html('<label class="checkbox-md info m-t-xs"><input type="checkbox" name="is_ketua_tim[' + count + ']" value="0" ><i></i></label>'));
+    //     }
+    //     // $row.append($("<td>").html('<label class="checkbox-md info m-t-xs"><input type="checkbox" name="is_ketua_tim[' + count + ']" value="1" ><i></i></label>'));
+    //     $row.append($("<td>").html("<a class='del-data-pendidik' href='#' title='Click to remove this entry'><i class='fa fa-trash-o'></i></a>"));
+    //     $row.appendTo($("#data-pendidik tbody"));
+    //     addselect2();
+    // }
 
     function numberRows($t) {
         var c = 0;

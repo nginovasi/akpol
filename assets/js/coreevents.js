@@ -54,7 +54,7 @@ class CoreEvents {
                 "url": url + "_load",
                 "dataType": "json",
                 "data": function (data) {
-                    // console.log(thisClass);
+                    // // console.log(thisClass);
                     // Grab form values containing user options
                     dataStart = data.start;
                     let form = {};
@@ -75,7 +75,7 @@ class CoreEvents {
                     return form;
                 },
                 "complete": function(response) {
-                    // console.log(response);
+                    // // console.log(response);
                     feather.replace();
                 }
             },
@@ -113,16 +113,19 @@ class CoreEvents {
                         dataType : 'json',
                         success: function(result){
                             Swal.close();
-                            console.log(result);
+                            // // console.log(result);
                             if(result.success){
                                 Swal.fire('Sukses', thisClass.insertHandler.placeholder, 'success');
                                 $('#form').trigger("reset");
                                 thisClass.table.ajax.reload();
                                 thisClass.insertHandler.afterAction(result);
                             }else{
-                                // Swal.fire('Error', result.message, 'error');
-                                if (result.message == '') {
+                                if (result.title == 'mysqli_sql_exception') {
+                                    Swal.fire('Warning', "Data sudah ada", 'warning');
+                                } else if (result.message == '') {
                                     Swal.fire('Error', 'Terjadi kesalahan pada server', 'error');
+                                } else {
+                                    Swal.fire('Error', result.message, 'error');
                                 }
                             }
                         },

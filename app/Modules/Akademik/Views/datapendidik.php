@@ -711,7 +711,7 @@
                 success: function (result) {
                     Swal.close();
                     if (result.success) {
-                        console.log(result.data);
+                       // console.log(result.data);
                         for (key in result.data) {
                             $('#' + key).val(result.data[key]);
                             if (key === 'is_gadik' || key === 'is_instruktur' || key === 'is_pengasuh') {
@@ -1250,7 +1250,7 @@
                 "url": url_load,
                 "dataType": "json",
                 "data": function (data) {
-                    console.log(data);
+                   // console.log(data);
                     // Grab form values containing user options
                     dataStart = data.start;
                     let form = {};
@@ -1272,7 +1272,7 @@
                     return form;
                 },
                 "complete": function (response) {
-                    console.log(response);
+                   // console.log(response);
                     feather.replace();
                 }
             },

@@ -236,7 +236,7 @@
                 success: function(result){
                     Swal.close();
                     datahot = result;
-                        console.log(datahot);
+                       // console.log(datahot);
                         laahhot();
                     if(result.success){
                         for(key in result.data){
@@ -307,11 +307,11 @@ function laahhot() {
 	      return; 
 	    }
 
-	    console.log(change[0][0]);
+	   // console.log(change[0][0]);
 
 
 	    clearTimeout(autosaveNotification);
-	    console.log(hot.getData()[change[0][0]]);
+	   // console.log(hot.getData()[change[0][0]]);
 
 	    exampleConsole.innerText = 'Autosaved (' + change.length + ' ' + 'cell' + (change.length > 1 ? 's' : '') + ')';
 	      autosaveNotification = setTimeout(() => {

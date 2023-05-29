@@ -210,7 +210,7 @@
         $(document).on('submit', '#form', function(e) {
             e.preventDefault();
             let $this = $(this);
-            console.log($this);
+           // console.log($this);
 
             Swal.fire({
                 title: "Simpan data ?",
@@ -313,7 +313,7 @@
                                     }
                                 });
                             });
-                            console.log(result.data);
+                           // console.log(result.data);
                             $('.custom-file-label').html(result.data.file_materi_tugas);
                         }, 500);
                     } else {
@@ -374,7 +374,7 @@
             if ($this.data('detail') !== undefined) {
 
                 detail = JSON.parse($this.data('detail').replaceAll("'", '"'));
-                console.log(detail);
+               // console.log(detail);
                 var is_ketua_tim = detail.is_ketua_tim ? parseInt(detail.is_ketua_tim) : 0;
 
                 var formData = new FormData();
@@ -417,7 +417,7 @@
             if ($this.data('detail') !== undefined) {
 
                 detail = JSON.parse($this.data('detail').replaceAll("'", '"'));
-                console.log(detail);
+               // console.log(detail);
 
                 for (key in detail) {
                     $('#view_' + key).html(detail[key]);
@@ -502,7 +502,7 @@
                     return form;
                 },
                 "complete": function(response) {
-                    console.log(response);
+                   // console.log(response);
                     feather.replace();
                 }
             },
@@ -551,7 +551,7 @@
                 orderable: false,
                 render: function(a, type, data, index) {
 
-                    console.log(data);
+                   // console.log(data);
                     let button = ""
 
                     button += '<button class="btn btn-sm btn-outline-primary show" type="button" data-toggle="collapse" data-target="#collapseKelas" data-id="' + data.id + '" data-detail="' + JSON.stringify(data).replaceAll('"', "'") + '" title="Tampilkan Tugas">\
@@ -618,7 +618,7 @@
     }
 
     function loadTabelKelas(result, is_ketua_tim) {
-        console.log(result);
+       // console.log(result);
         var kelas = '';
         kelas += '\
                     <table class="table table-theme v-middle m-0">\

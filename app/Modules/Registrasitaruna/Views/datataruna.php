@@ -626,7 +626,7 @@
                             }
                         });
                     });
-                    console.log(result.data);
+                   // console.log(result.data);
                     $('.photopath_label').html(result.data.photopath);
                     $('.photo_ayah_label').html(result.data.photo_ayah);
                     $('.photo_ibu_label').html(result.data.photo_ibu);
@@ -972,7 +972,7 @@
                 },
                 dataType: 'json',
                 success: function (result) {
-                    console.log(result);
+                   // console.log(result);
 
 
                     if (usertype == 'btl') {
@@ -1001,7 +1001,7 @@
         $(document).on('submit', '#form', function (e) {
             e.preventDefault();
             let $this = $(this);
-            console.log($this);
+           // console.log($this);
 
             Swal.fire({
                 title: "Simpan data ?",
@@ -1089,7 +1089,7 @@
             var url = '<?= base_url() ?>/auth/action/login_as';
 
             $.post(url, $form.serialize(), function (data) {
-                console.log(data);
+               // console.log(data);
                 var ret = $.parseJSON(data);
                 swal.close();
                 if (ret.success) {
@@ -1163,7 +1163,7 @@
                 "url": url_load,
                 "dataType": "json",
                 "data": function (data) {
-                    console.log(data);
+                   // console.log(data);
                     // Grab form values containing user options
                     dataStart = data.start;
                     let form = {};
@@ -1187,7 +1187,7 @@
                     return form;
                 },
                 "complete": function (response) {
-                    console.log(response);
+                   // console.log(response);
                     feather.replace();
                 }
             },

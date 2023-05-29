@@ -302,7 +302,7 @@
                         var no = 0;
                         result.data.forEach (function(x) {
                             no = no+1;
-                            console.log(x.namataruna);
+                           // console.log(x.namataruna);
                             $("#list-kelompod-id tbody").append('<tr>\
                                 <td class="text-muted">'+no+'</td>\
                                 <td class="text-muted">'+x.namataruna+'</td>\

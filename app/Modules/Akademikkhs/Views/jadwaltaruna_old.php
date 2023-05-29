@@ -751,7 +751,7 @@ $(document).on('click', '#confdelete', function() {
           },
           dataType: 'json',
           success: function(result){
-              console.log(result);
+             // console.log(result);
               Swal.close();
               if(result.success){
                 $("div").find('[data-taskid='+taskid+']').remove();

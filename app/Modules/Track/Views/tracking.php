@@ -533,7 +533,7 @@ const dataController = (function() {
 
         // Testing
         testing: function() {
-            console.log(projects);
+           // console.log(projects);
         }
 
     };
@@ -795,7 +795,7 @@ const controller = (function(dataCtrl, UICtrl) {
         
         // Initialization
         init: function() {
-            console.log('Application has started');
+           // console.log('Application has started');
             setupEventListeners();
         }
 

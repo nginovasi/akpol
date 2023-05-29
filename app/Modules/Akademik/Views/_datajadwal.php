@@ -857,7 +857,7 @@
                   },
                   dataType: 'json',
                   success: function(result){
-                      console.log(result);
+                     // console.log(result);
                       Swal.close();
                       if(result.success){
                         $("div").find('[data-taskid='+taskid+']').remove();
@@ -945,7 +945,7 @@
 
                     document.querySelectorAll("tr [data-namakelompoktaruna='" + namakelompoktaruna + "'][data-date='" + newDate + "'] ").forEach(el => el.remove() );
 
-                    console.log($("tr [data-unitpertemuan='2'][data-dateheaderr='" + newDate + "']").parent().html());
+                   // console.log($("tr [data-unitpertemuan='2'][data-dateheaderr='" + newDate + "']").parent().html());
 
                     $("tr [data-unitpertemuan='2'][data-dateheaderr='" + newDate + "']").parent().append('asddsa');
 

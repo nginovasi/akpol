@@ -445,7 +445,7 @@
 
                             tabel += '</tbody></table>';
                                   $('#data_tabel_jadwal').html(tabel);
-                                  console.log(result.data.content);
+                                 // console.log(result.data.content);
 
                                   $('#card_table_jadwal').show();
 
@@ -644,7 +644,7 @@ $(document).on('click', '#confdelete', function() {
           },
           dataType: 'json',
           success: function(result){
-              console.log(result);
+             // console.log(result);
               Swal.close();
               if(result.success){
                 $("div").find('[data-taskid='+taskid+']').remove();

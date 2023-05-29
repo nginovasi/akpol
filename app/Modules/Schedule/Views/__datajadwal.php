@@ -163,14 +163,14 @@
                 e.originalEvent.dataTransfer.effectAllowed = "move";
                 e.originalEvent.dataTransfer.setData("text/plain", this.id);
             }).on("drag", function (e) {
-                console.log('b');
+               // console.log('b');
                 /// This event is fired at the source of the drag, that is, the element where dragstart
                 /// was fired, during the drag operation.
             }).on("dragend", function (e) {
                 /// The source of the drag will receive a dragend event when the drag operation is complete,
                 /// whether it was successful or not.
                 var dropEffect = e.originalEvent.dataTransfer.dropEffect;
-                console.log(dropEffect);
+               // console.log(dropEffect);
                 switch (dropEffect) {
                     case "copy":
                         /// Falling through to "move" because Chrome on Windows has a bug that makes it
@@ -778,9 +778,9 @@
 
                     if(result.success){
                         var tabel = '';
-                        console.log(result.data.header.length);
-                        console.log(result.data.header.length);
-                        console.log(result);
+                       // console.log(result.data.header.length);
+                       // console.log(result.data.header.length);
+                       // console.log(result);
                         tabel +='<table id="Scheduled" style="background-color: #f5f5f6 ; overflow-x: auto; ">\
                                     <thead>\
                                         <tr>\

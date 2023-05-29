@@ -608,7 +608,7 @@
                         var no = 0;
                         $("#div_dasar_hukum").hide();
 
-                        console.log(result.data[0]['is_pelanggaran']);
+                       // console.log(result.data[0]['is_pelanggaran']);
                         if (result.data[0]['is_pelanggaran']=='Pujian') {
                             $("#button_verifpujian").show();
                             $("#button_verif").hide();

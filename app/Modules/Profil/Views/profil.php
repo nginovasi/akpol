@@ -137,34 +137,38 @@
                                         </div>
                                     </div>
                                     <div class="row mb-2">
-                                        <div class="col-3">
+                                        <div class="col-4">
                                             <small class="text-muted">No AK</small>
                                             <div class="my-2">' . $userdetail->noaklong . '</div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-4">
                                             <small class="text-muted">Batalyon</small>
                                             <div class="my-2">' . $userdetail->nama_batalyon . '</div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-4">
                                             <small class="text-muted">Kompi</small>
                                             <div class="my-2">' . $userdetail->nama_kompi . '</div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row mb-2">
+                                        <div class="col-4">
+                                            <small class="text-muted">Jenis Kelamin</small>
+                                            <div class="my-2">' . $userdetail->nama_gender . '</div>
+                                        </div>
+                                        <div class="col-4">
+                                            <small class="text-muted">Kontak</small>
+                                            <div class="my-2">' . $userdetail->telp . '</div>
                                         </div>
                                         <div class="col-3">
                                             <small class="text-muted">Peleton</small>
                                             <div class="my-2">' . $userdetail->nama_peleton . '</div>
                                         </div>
                                     </div>
-
                                     <div class="row mb-2">
-                                        <div class="col-3">
-                                            <small class="text-muted">Jenis Kelamin</small>
-                                            <div class="my-2">' . $userdetail->nama_gender . '</div>
-                                        </div>
-                                        <div class="col-3">
-                                            <small class="text-muted">Kontak</small>
-                                            <div class="my-2">' . $userdetail->telp . '</div>
-                                        </div>
-                                        <div class="col-6">
+
+                                        <div class="col-12">
                                             <small class="text-muted">Alamat</small>
                                             <div class="my-2">' . $userdetail->alamat_ktp . ', ' . $userdetail->nama_kel_ktp . ', ' . $userdetail->nama_kec_ktp . ', ' . $userdetail->nama_kota_kab_ktp . ', ' . $userdetail->nama_prov_ktp . '</div>
                                         </div>
@@ -198,17 +202,46 @@
                                 } ?>
                                 <input type="hidden" class="form-control" value="<?= $usertype ?>" name="usertype" id="usertype">
                                 <div class="form-group">
+                                    <label>Username</label>
+                                    <input type="text" class="form-control" value="<?= $username ?>" readonly>
+                                </div>
+                                <div class="form-group">
                                     <label>Nama</label>
                                     <input type="text" class="form-control" value="<?= $name ?>" name="name" id="name">
                                 </div>
                                 <div class="form-group">
-                                    <label>Alamat</label>
-                                    <input type="text" class="form-control" value="<?= $name ?>" name="name" id="name">
+                                    <div class="row">
+                                        <!-- <div class="col-6">
+                                            <label>Jenis Kelamin</label>
+                                            <select class="form-control sel2" value="<?= $userdetail->nama_gender ?>" id="id_gender" name="id_gender">
+                                                <option></option>
+                                                <option value="1">Laki-laki</option>
+                                                <option value="2">Perempuan</option>
+                                            </select>
+                                        </div> -->
+                                        <div class="col-6">
+                                            <label>No Telephone</label>
+                                            <input type="text" class="form-control" value="<?= $userdetail->telp ?>" name="telp" id="telp">
+                                            <!-- <input type="tel" class="form-control" id="telp" name="telp" minlength="10" maxlength="14" placeholder="No Telepon Taruna" required> -->
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Username</label>
-                                    <input type="text" class="form-control" value="<?= $username ?>" readonly>
-                                </div>
+                                <!-- <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label>Tempat Lahir</label>
+                                            <select class="form-control sel2" value="<?= $userdetail->nama_kabkota_lhr ?>" id="id_kabkota_lhr" name="id_kabkota_lhr">
+                                                <option></option>
+                                            </select>
+                                                                                       
+                                        </div>
+                                        <div class="col-6">
+                                            <label>Tanggal Lahir</label>
+                                            <input type="date" class="form-control" id="tglhr" name="tglhr" placeholder="Tanggal Lahir">
+                                        </div>
+                                    </div>
+                                </div> -->
+
                                 <button type="submit" class="btn btn-primary mt-2">Update</button>
                             </form>
                         </div>
@@ -285,7 +318,7 @@
                                         <img class="w-96" id="photopath_modal" src="../assets/img/a1.jpg" alt="." style="object-fit:cover;">
                                     </a>
                                 </div>
-                            
+
                             </div> -->
                         </div>
                     </div>
@@ -332,7 +365,8 @@
             let $this = $(this);
             var formData = new FormData(this);
             let name = $('#name').val();
-            if (name != '') {
+            let telp = $('#telp').val();
+            if (name != '' && telp!= '') {
                 $.ajax({
                     url: url_change_info,
                     method: "POST",

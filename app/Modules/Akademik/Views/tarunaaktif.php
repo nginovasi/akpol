@@ -200,7 +200,7 @@ li.dt-button.active a::before{
                 "url": url_load,
                 "dataType": "json",
                 "data": function (data) {
-                    console.log(data);
+                   // console.log(data);
                     // Grab form values containing user options
                     dataStart = data.start;
                     let form = {};
@@ -228,7 +228,7 @@ li.dt-button.active a::before{
                             $('.buttons-colvis[aria-controls=datatable] span').html('Columns (' + visCols + ' of ' + tblCols + ')');
                             e.stopPropagation();
                         });
-                    console.log(response);
+                   // console.log(response);
                     feather.replace();
                 }
             },

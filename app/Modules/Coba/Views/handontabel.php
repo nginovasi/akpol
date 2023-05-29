@@ -74,13 +74,13 @@
 	      return; //don't save this change
 	    }
 
-	    console.log(change);
+	   // console.log(change);
 	    // if (!autosave.checked) {
 	    //   return;
 	    // }
 
 	    clearTimeout(autosaveNotification);
-	    console.log(hot.getData());
+	   // console.log(hot.getData());
 
 	    exampleConsole.innerText = 'Autosaved (' + change.length + ' ' + 'cell' + (change.length > 1 ? 's' : '') + ')';
 	      autosaveNotification = setTimeout(() => {

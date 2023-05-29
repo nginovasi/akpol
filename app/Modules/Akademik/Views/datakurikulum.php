@@ -13,7 +13,8 @@
         <div class="card">
             <div class="card-header">
                 <ul class="nav nav-pills card-header-pills no-border" id="tab">
-                    <li class="nav-item" onclick="hiddenform()">
+                    <!-- <li class="nav-item" onclick="hiddenform()"> -->
+                    <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#tab-data" role="tab" aria-controls="tab-data" aria-selected="false">Data</a>
                     </li>
                     <?php if ($rules->i == 1) { ?>
@@ -114,7 +115,7 @@
                                             <td><input type="hidden" name="id[0]"><input type="text" class="form-control judul" name="judul[0]" value="" placeholder="Judul " required></td>
                                             <td><input type="text" class="form-control deskripsi" name="deskripsi[0]" value="" placeholder="Deskripsi " required></td>
                                             <td><select class="form-control is_ujian" name="is_ujian[0]" value="0" placeholder="Pertemuan" required>
-                                                    <option value="">Pilih</option>
+                                                    <option value="" disabled selected>Pilih</option>
                                                     <option value="0">Tidak</option>
                                                     <option value="1">UTS</option>
                                                     <option value="2">UAS</option>
@@ -281,13 +282,11 @@
         coreEvents.insertHandler = {
             placeholder: 'Berhasil menyimpan data bahan ajar',
             afterAction: function(result) {
-
                 $("#bahan-ajar tbody").html("");
                 $("#datadelete").html("");
                 addrows();
                 $('.sel2').val(null).trigger('change');
                 $('ul#tab li a').first().trigger('click');
-                $("#form-simpan").hide();
                 coreEvents.table.ajax.reload();
                 coreEvents.table.page('first').draw('page');
             }
@@ -577,7 +576,7 @@
 
     function addrows() {
         var count = $('tr.counting').length;
-        console.log(count);
+       // console.log(count);
         var $row = $("<tr class='counting'>");
         $row.append($("<td>").html(count + 1 + '.'));
         $row.append($("<td>").html('<input type="hidden" class="id" name="id[' + count + ']" ><input type="text" class="form-control judul" name="judul[' + count + ']" value="" placeholder="Judul "  required>'));

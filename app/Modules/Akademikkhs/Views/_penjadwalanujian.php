@@ -644,7 +644,7 @@ $(document).on('click', '.opt-edit', function() {
   $('#update_id_jadwal').val(idjadwal);
 
 
-  console.log($(this).parent().parent().parent().html());
+ // console.log($(this).parent().parent().parent().html());
   // insert data to Modal 
 
   $('#edittask').modal('show');
@@ -652,7 +652,7 @@ $(document).on('click', '.opt-edit', function() {
 }).on('click', '#confupdate', function() {
   var id_jadwal = $('#update_id_jadwal').val();
 
-  console.log(id_jadwal);
+ // console.log(id_jadwal);
 });
 
 // Modal remove task ?
@@ -681,7 +681,7 @@ $(document).on('click', '#confdelete', function() {
           },
           dataType: 'json',
           success: function(result){
-              console.log(result);
+             // console.log(result);
               Swal.close();
               if(result.success){
                 $("div").find('[data-taskid='+taskid+']').remove();
@@ -904,7 +904,7 @@ function changeColor(id, c) {
                     },
                     dataType: 'json',
                     success: function(result){
-                        console.log(result);
+                       // console.log(result);
                         Swal.close();
                         if(result.success){
 

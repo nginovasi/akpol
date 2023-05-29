@@ -283,7 +283,7 @@
 
         $(document).on("click", ".button_modal", function(e) {
             $('#modal-detail').modal('show');
-            console.log($(this).data('content'));
+           // console.log($(this).data('content'));
             $('#kalenderakademik').attr('src', $(this).data('content'));
         })
     });

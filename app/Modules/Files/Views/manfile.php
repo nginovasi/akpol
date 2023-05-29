@@ -221,8 +221,8 @@
                     },
                     dataType: 'json',
                     success: function(response) {
-                        console.log('cek');
-                        console.log(response);
+                       // console.log('cek');
+                       // console.log(response);
                         if (response.success) {
                             document.getElementById(file.upload.uuid).remove();
                             $(file.previewElement).remove();
@@ -233,9 +233,9 @@
 
             },
             success: function(file, response) {
-                console.log(file);
+               // console.log(file);
                 let obj = JSON.parse(response);
-                console.log(obj);
+               // console.log(obj);
                 $('#lokasi_file_arr').append("<div id='" + file.upload.uuid + "'><input type='hidden' name='lokasi_file[]' value='" + obj.data.dir + "' >\
                 <input type='hidden' name='tipe_file[]' value='" + obj.data.ext + "' >\
                 <input type='hidden' name='ukuran_file[]' value='" + obj.data.size + "' ></div>");
@@ -297,7 +297,7 @@
             let $this = $(this);
             let dir = $this.data('dir');
             let url = dir.includes('http://devel.nginovasi.id/akpol-api/') ? dir : 'http://devel.nginovasi.id/akpol-api/' + dir;
-            console.log(url);
+           // console.log(url);
             window.open(url, '_blank').focus();
         }).on('change', '#id_batalyon', function() {
             $("#id_mata_pelajaran").val(null).trigger('change');

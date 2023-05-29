@@ -828,11 +828,11 @@ $("td[data-date]").droppable({
       dropID = drop.data("unit");   // Task userid on drop
       kelompokID = drop.data("kelompoktaruna");   // Task userid on drop
 
-    console.log(oldDate);
-    console.log(newDate);
-    console.log(dragID);
-    console.log(dropID);
-    console.log(kelompokID);
+   // console.log(oldDate);
+   // console.log(newDate);
+   // console.log(dragID);
+   // console.log(dropID);
+   // console.log(kelompokID);
     if (oldDate != newDate || dragID != dropID) {
       $(drag).detach().css({ top: 0, left: 0 }).appendTo(drop);
       $(drag).data("userid", dropID); // Update task userid

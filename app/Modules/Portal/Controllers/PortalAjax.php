@@ -67,4 +67,20 @@ class PortalAjax extends BaseController
     public function kel_select_get(){
         echo parent::_httpGets('/web/registrasitaruna/kel_select_get', json_decode(json_encode($this->request->getGet()), true));
     }
+    public function check_nik() {
+        echo parent::_httpGets('/web/registrasitaruna/check_nik', json_decode(json_encode($this->request->getGet()), true));
+
+    }
+    public function check_noaklong() {
+        echo parent::_httpGets('/web/registrasitaruna/check_noaklong', json_decode(json_encode($this->request->getGet()), true));
+
+    }
+    public function check_email() {
+        echo parent::_httpGets('/web/registrasitaruna/check_email', json_decode(json_encode($this->request->getGet()), true));
+
+    }
+    public function check_telp() {
+        echo parent::_httpGets('/web/registrasitaruna/check_telp', json_decode(json_encode($this->request->getGet()), true));
+
+    }
 }
