@@ -109,7 +109,7 @@
         coreEvents.insertHandler = {
             placeholder : 'Berhasil menyimpan data peleton',
             afterAction : function(result) {
-
+                window.location.reload();
             }
         }
 

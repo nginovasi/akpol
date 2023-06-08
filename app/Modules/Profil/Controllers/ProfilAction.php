@@ -31,6 +31,15 @@ class ProfilAction extends BaseController
         // echo json_encode($data);
         echo parent::_httpPost('/web/administrator/changepass_save', ["param" => json_encode($data)]);
     }
+    function changedetail_info()
+    {
+        $userid = $this->session->get('id');
+        $data = $this->request->getPost();
+        $data['id'] = $userid;
+
+        // echo json_encode($data);
+        echo parent::_httpPost('/web/administrator/changedetailinfo_save', ["param" => json_encode($data)]);
+    }
 
 
     function change_info()

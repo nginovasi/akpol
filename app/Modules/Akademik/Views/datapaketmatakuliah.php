@@ -93,14 +93,14 @@
                                             <td>1</td>
                                             <td><input type="hidden" name="id[0]"> <select class="form-control sel2 select2matkul" name="id_mata_pelajaran[0]" onchange="mypendidik(0)"></select></td>
                                             <!-- <td><select type="hidden" name="id_mata_pelajaran_del[0]"></select></td> -->
-                                            <td><select class="form-control sel2 select2aspek" name="id_aspek[0]" onchange="myFunction(0)"></select></td>
+                                            <td><select class="form-control sel2 select2aspek" name="id_aspek[0]_" onchange="myFunction(0)"></select></td>
                                             <td><select class="form-control sel2 select2satuan" name="satuan[0]" onchange="myFunction(0)">
                                                     <option value="sks">SKS</option>
                                                     <option value="jp">JP</option>
                                                     <option value="hari">HARI</option>
                                                 </select></td>
                                             <td><input type="text" class="form-control nilai" name="nilai[0]" oninput="myFunction(0)" placeholder="Jumlah"> </td>
-                                            <td><input type="text" class="form-control" name="jumlah_pertemuan[0]">
+                                            <td><input type="text" class="form-control" name="jumlah_pertemuan[0]" readonly>
                                             </td>
                                             <td><a class='del-data-mata_pelajaran' href='#' title='Click to remove this entry'><i class='fa fa-trash-o'></i></a>
                                             </td>
@@ -236,11 +236,12 @@
         coreEvents.insertHandler = {
             placeholder: 'Berhasil menyimpan data paket mata kuliah',
             afterAction: function(result) {
-               // console.log(result);
+                coreEvents.table.ajax.reload();
                 $("#data-mata_pelajaran tbody").html("");
                 $("#datadelete").html("");
                 addrows();
-                $('.sel2').val(null).trigger('change')
+                $('.sel2').val(null).trigger('change');
+                window.location.reload();
             }
         }
 
@@ -269,6 +270,7 @@
                     });
                     $("#data-mata_pelajaran tbody").html("");
                     result.list.forEach(function(list) {
+                        // console.log(list);
 
                         var count = $('tr.counting').length;
                         var $row = $("<tr class='counting'>");
@@ -276,7 +278,7 @@
                         $row.append($("<td>").html(count + 1 + '.'));
                         $row.append($("<td>").html('<input type="hidden" name="id[' + count + ']" value="' + list.id + '" > <select class="form-control sel2 select2matkul" style="width:100%" name="id_mata_pelajaran[' + count + ']" onchange="mypendidik(' + count + ')"></select>'));
 
-                        $row.append($("<td>").html('<select class="form-control sel2 select2aspek" onchange="myFunction(' + count + ')" name="id_aspek[' + count + ']" required></select>'));
+                        $row.append($("<td>").html('<select class="form-control sel2 select2aspek" onchange="myFunction(' + count + ')" name="id_aspek[' + count + ']_" disabled required></select> '));
 
                         $row.append($("<td>").html('<select class="form-control sel2 select2satuan"  onchange="myFunction(' + count + ')" name="satuan[' + count + ']" required>\
                                                                 <option value="sks">SKS</option>\
@@ -284,7 +286,7 @@
                                                                 <option value="hari">HARI</option>\
                                                             </select>'));
                         $row.append($("<td>").html('<input type="text" class="form-control nilai" name="nilai[' + count + ']" oninput="myFunction(' + count + ')" placeholder="Jumlah"  value="' + list.nilai + '" required>'));
-                        $row.append($("<td>").html('<input type="text" class="form-control" name="jumlah_pertemuan[' + count + ']" value="' + list.jumlah_pertemuan + '" required>'));
+                        $row.append($("<td>").html('<input type="text" class="form-control" name="jumlah_pertemuan[' + count + ']" value="' + list.jumlah_pertemuan + '" required readonly>'));
 
                         $row.append($("<td>").html("<a class='del-data-mata_pelajaran' data-id='" + list.id + "' href='#' title='Click to remove this entry'><i class='fa fa-trash-o'></i></a>"));
 
@@ -293,7 +295,9 @@
                         $('select[name="id_mata_pelajaran[' + count + ']"]').select2("trigger", "select", {
                             data: {
                                 id: list.id_mata_pelajaran,
-                                text: list.nama_mata_pelajaran
+                                text: list.nama_mata_pelajaran,
+                                id_aspek: list.id_aspek,
+                                aspek: list.nama_aspek
                             }
                         });
 
@@ -320,19 +324,14 @@
 
         coreEvents.deleteHandler = {
             placeholder: 'Berhasil menghapus data paket mata kuliah',
-            afterAction: function() {
-
-            }
+            afterAction: function() {}
         }
 
         coreEvents.resetHandler = {
-            action: function() {
-
-            }
+            action: function() {}
         }
 
         coreEvents.load();
-
 
         select2Array.forEach(function(x) {
             coreEvents.select2Init('#' + x.id, x.url, x.placeholder, x.params);
@@ -379,9 +378,7 @@
                                 $("#button_verif").attr('data-id_batalyon', $this.data('id_batalyon'));
                                 $("#button_verif").attr('data-id_semester', $this.data('id_semester'));
                             }
-
-
-                        })
+                        });
 
                     } else {
                         Swal.fire('Info', result.message, 'info');
@@ -464,25 +461,18 @@
                     // });
                 }
             })
-
         });
 
         $(document).on('click', '#add-service-button', function() {
-
             if ($("#data-mata_pelajaran").find("select.select2matkul").last().val() == null) {
                 $("#data-mata_pelajaran").find("select.select2matkul").last().select2('open');
             } else if ($("#data-mata_pelajaran").find("select.select2aspek").last().val() == null) {
                 $("#data-mata_pelajaran").find("select.select2aspek").last().select2('open');
-
             } else if ($("#data-mata_pelajaran").find("input.nilai").last().val() == '') {
-
                 $("#data-mata_pelajaran").find("input.nilai").last().focus();
-
             } else {
-               // console.log($("#data-mata_pelajaran").find("input.nilai").last().val());
                 addrows();
             }
-
         }).on("click", ".del-data-mata_pelajaran", function(e) {
             let $this = $(this);
             e.preventDefault();
@@ -496,36 +486,18 @@
                 $row.remove();
                 numberRows($("#data-mata_pelajaran"));
             }
-
         }).on('change', '#id_semester', function() {
-
-
             if ($("#id_semester").val() == null) {
                 $("#tahun_ajaran").val('');
             } else {
                 $("#tahun_ajaran").val($("#id_semester").select2('data')[0]['tahun_ajaran']);
             }
-
-            // console.log('asd');
-            // load_content();
-
         }).on('change', '#id_batalyon', function() {
-
-            // console.log($("#id_semester").val());
             if ($("#id_semester").val() != null) {
                 $("#id_semester").val(null).trigger('change');
             }
-            // console.log('asddd');
-            // load_content();
-
-
         });
-
-
         select2matkul();
-
-
-
     });
 
     function datatableColumn() {
@@ -560,18 +532,13 @@
                     let button = '<button class="btn btn-sm btn-outline-info lihat" data-id="' + data.id + '" data-id_batalyon="' + data.id_batalyon + '"data-id_semester="' + data.id_semester + '" title="Detail" >\
                                     <i class="fa fa-eye"></i>\
                                 </button>\
-                                '
-                    // let button = '';
-
-
+                                ';
                     if (auth_otorisasi == "1") {
                         if (data._is_verif == '0') {
                             button += '<button class="btn btn-sm btn-outline-success verif" data-id="' + data.id + '" data-id_batalyon="' + data.id_batalyon + '"data-id_semester="' + data.id_semester + '" title="Verif">\
                                         <i class="fa fa-check"></i>\
                                     </button>\
                                     ';
-                        } else {
-
                         }
                     }
 
@@ -594,10 +561,8 @@
                 }
             }
         ];
-
         return columns;
     }
-
 
     function getAllMatkul(idnya) {
         var idmatkul = document.getElementsByClassName('select2matkul');
@@ -608,12 +573,9 @@
                 return true;
             }
         }
-
     }
 
     function select2matkul() {
-
-
         $('.select2matkul').select2({
             id: function(e) {
                 return e.id
@@ -638,7 +600,6 @@
                 processResults: function(data, params) {
                     params.page = params.page || 0
 
-
                     var datafilter = data.rows.map(function(el) {
                         // console.log(el.active);
                         // if (el.active==0) {
@@ -653,7 +614,6 @@
                         //     return o;
                         // }
                     });
-
 
                     return {
                         results: datafilter,
@@ -675,6 +635,51 @@
             },
             escapeMarkup: function(m) {
                 return m;
+            }
+        }).on('select2:select', function(e) {
+            var matkul = $(this).attr('name');
+            var aspek = $(this).attr('name').replace('id_mata_pelajaran', 'id_aspek');
+            $('select[name="' + aspek + '"]').val(null).trigger('change');
+            if ('args' in e.params) {
+                console.log(e.params.args); // form edit
+                if (e.params.args.data.id_aspek == null && e.params.args.data.aspek == null) {
+                    Swal.fire({
+                        title: 'Perhatian!',
+                        text: 'Aspek mata pelajaran belum diatur',
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.value) {
+                            $('select[name="' + matkul + '"]').val(null).trigger('change');
+                            $('select[name="' + aspek + '_"]').after('<input type="hidden" name="' + aspek + '" value="" > ');
+                        }
+                    });
+                } else {
+                    $('select[name="' + aspek + '_"]').html('<option value="' + e.params.args.data.id_aspek + '">' + e.params.args.data.aspek + '</option>');
+                    $('select[name="' + aspek + '_"]').html('input[type="hidden"]').remove();
+                    $('select[name="' + aspek + '_"]').attr('disabled', 'disabled');
+                }
+            } else {
+                console.log(e.params.data); // form baru disini
+                if (e.params.data.id_aspek == null && e.params.data.aspek == null) {
+                    Swal.fire({
+                        title: 'Perhatian!',
+                        text: 'Aspek mata pelajaran belum diatur',
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.value) {
+                            $('select[name="' + matkul + '"]').val(null).trigger('change');
+                            $('select[name="' + aspek + '_"]').after('<input type="hidden" name="' + aspek + '" value="" > ');
+                        }
+                    });
+                } else {
+                    $('select[name="' + aspek + '_"]').html('<option value="' + e.params.data.id_aspek + '">' + e.params.data.aspek + '</option>');
+                    // $('select[name="' + aspek + '_"]').find('input').remove();
+                    $('select[name="' + aspek + '_"]').after('<input type="hidden" name="' + aspek + '" value="' + e.params.data.id_aspek + '" > ');
+                    // $('select[name="' + aspek + '_"]').find('input').val(e.params.args.data.id_aspek);
+                    $('select[name="' + aspek + '_"]').attr('disabled', 'disabled');
+                }
             }
         });
 
@@ -716,19 +721,14 @@
                 if (data.id === '') {
                     return "Pilih Aspek";
                 }
-
                 return data.text;
             },
             escapeMarkup: function(m) {
                 return m;
             }
         });
-
         $('.select2satuan').select2();
     }
-
-
-
 
     function addrows() {
         var count = $('tr.counting').length;
@@ -736,14 +736,14 @@
         $row.append($("<td>").html(count + 1 + '.'));
         $row.append($("<td>").html('<input type="hidden" name="id[' + count + ']" > <select class="form-control sel2 select2matkul" style="width:100%" name="id_mata_pelajaran[' + count + ']" onchange="mypendidik(' + count + ')" required></select>'));
 
-        $row.append($("<td>").html('<select class="form-control sel2 select2aspek"  onchange="myFunction(' + count + ')" name="id_aspek[' + count + ']" required></select>'));
+        $row.append($("<td>").html('<select class="form-control sel2 select2aspek"  onchange="myFunction(' + count + ')" name="id_aspek[' + count + ']_" required></select> '));
         $row.append($("<td>").html('<select class="form-control sel2 select2satuan"  onchange="myFunction(' + count + ')" name="satuan[' + count + ']" required>\
                                                 <option value="sks">SKS</option>\
                                                 <option value="jp">JP</option>\
                                                 <option value="hari">HARI</option>\
                                             </select>'));
         $row.append($("<td>").html('<input type="text" class="form-control nilai" name="nilai[' + count + ']"   oninput="myFunction(' + count + ')" placeholder="Jumlah" required> '));
-        $row.append($("<td>").html('<input type="text" class="form-control"   name="jumlah_pertemuan[' + count + ']" required >'));
+        $row.append($("<td>").html('<input type="text" class="form-control"   name="jumlah_pertemuan[' + count + ']" required readonly >'));
         $row.append($("<td>").html("<a class='del-data-mata_pelajaran' href='#' title='Click to remove this entry'><i class='fa fa-trash-o'></i></a>"));
 
         $row.appendTo($("#data-mata_pelajaran tbody"));
@@ -759,21 +759,21 @@
             $(el).find("td:eq(0)").html(ind + 1 + '.');
             $(el).find("td:eq(1) input").attr("name", "id[" + ind + "]");
             $(el).find("td:eq(1) select").attr("name", "id_mata_pelajaran[" + ind + "]");
-            $(el).find("td:eq(2) select").attr("name", "id_aspek[" + ind + "]");
+            $(el).find("td:eq(2) select").attr("name", "id_aspek_[" + ind + "]");
+            $(el).find("td:eq(2) input").attr("name", "id_aspek[" + ind + "]");
             $(el).find("td:eq(3) select").attr("name", "satuan[" + ind + "]");
             $(el).find("td:eq(4) input").attr("name", "nilai[" + ind + "]");
             $(el).find("td:eq(5) input").attr("name", "jumlah_pertemuan[" + ind + "]");
         });
     }
 
-
     function myFunction(x) {
-
         let valnilai = $("input[name='nilai[" + x + "]']").val();
         let valsatuan = $("select[name='satuan[" + x + "]']").val();
-        let valaspek = $("select[name='id_aspek[" + x + "]']").val();
+        let valaspek = $("select[name='id_aspek_[" + x + "]']").val();
+        valaspek = $("input[name='id_aspek[" + x + "]']").val();
 
-        let elemen = $("select[name='id_aspek[" + x + "]']");
+        let elemen = $("select[name='id_aspek_[" + x + "]']");
 
         var jmlsatuan = 0;
 
@@ -788,39 +788,27 @@
         }
 
         if (valaspek == 1) {
-
             $("input[name='jumlah_pertemuan[" + x + "]']").val((jmlsatuan * valnilai) / 2);
         } else if (valaspek == 2) {
-
             $("input[name='jumlah_pertemuan[" + x + "]']").val((jmlsatuan * valnilai));
-
         } else if (valaspek == 3) {
-
             $("input[name='jumlah_pertemuan[" + x + "]']").val((jmlsatuan * valnilai));
         } else if (valaspek == 4) {
-
             $("input[name='jumlah_pertemuan[" + x + "]']").val((jmlsatuan * valnilai));
         } else if (valaspek == 5) {
-
             $("input[name='jumlah_pertemuan[" + x + "]']").val((jmlsatuan * valnilai));
         } else {
-
             $("input[name='jumlah_pertemuan[" + x + "]']").val((jmlsatuan * valnilai));
         }
-
-
-
     }
 
     function mypendidik(x) {
         if (is_edit == 0) {
             if ($("#id_batalyon").val() == null) {
-                // alert('Mohon Pilih Batalyon');
-            } else {
-               // console.log($("select[name='id_mata_pelajaran[" + x + "]']").val());
-               // console.log($("#id_batalyon").val());
-            }
 
+            } else {
+
+            }
         } else {
 
         }

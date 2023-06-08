@@ -279,8 +279,6 @@ class AkademikAction extends BaseController
         parent::_authInsert(function () {
             $userid = $this->session->get('id');
             $data = array();
-           
-
             if (isset($_POST['is_verif']) == 1) {
                 for ($i = 0; $i < count($_POST['id_program_studi_mata_pelajaran']); $i++) {
                     $dataarray = array(
@@ -294,8 +292,6 @@ class AkademikAction extends BaseController
                     array_push($data, $dataarray);
                 }
             } else {
-          
-
                 for ($i = 0; $i < count($_POST['id_mata_pelajaran']); $i++) {
                     $dataarray = array(
                         'id' => $_POST['id'][$i],
@@ -314,8 +310,9 @@ class AkademikAction extends BaseController
                     );
                     array_push($data, $dataarray);
                 }
-                if (isset($_POST['is_deleted']) == 1) {
+                if (isset($_POST['is_deleted'])) {
                     for ($i = 0; $i < count($_POST['is_deleted']); $i++) {
+                        
                         $dataarray = array(
                             'id' => $_POST['is_deleted'][$i],
                             'is_deleted' => 1,
@@ -358,9 +355,20 @@ class AkademikAction extends BaseController
     // End datapaketmatakuliah Done
 
 
-    // Begin Data kurikulumDone
+    // Begin Data kurikulum Done
 
-    function  _datakurikulum_load()
+    function datakurikulum_otorisasi()
+    {
+        parent::_authOtoritasi(function () {
+
+            $userid = $this->session->get('id');
+            $data = $this->request->getPost();
+
+            echo parent::_httpPost('/web/akademik/datakurikulum_otorisasi', ["param" => json_encode($data), "userid" => $userid]);
+        });
+    }
+
+    function  datakurikulum_load()
     {
         parent::_authLoad(function () {
 
@@ -368,29 +376,26 @@ class AkademikAction extends BaseController
         });
     }
 
-    function  _datakurikulum_save()
+    function  datakurikulum_save()
     {
         parent::_authInsert(function () {
             $userid = $this->session->get('id');
             $data = $this->request->getPost();
-
             echo parent::_httpPost('/web/akademik/datakurikulum_save', ["param" => json_encode($data), "userid" => $userid]);
         });
     }
 
-    function  _datakurikulum_edit()
+    function  datakurikulum_edit()
     {
         parent::_authEdit(function () {
-
             echo parent::_httpPost('/web/akademik/datakurikulum_edit', ["param" => json_encode($this->request->getPost())]);
         });
     }
 
-    function _datakurikulum_delete()
+    function datakurikulum_delete()
     {
         parent::_authDelete(function () {
             $userid = $this->session->get('id');
-
             echo parent::_httpPost('/web/akademik/datakurikulum_delete', ["param" => json_encode($this->request->getPost()), "userid" => $userid]);
         });
     }
@@ -792,88 +797,76 @@ class AkademikAction extends BaseController
 
     // Begin Data Bahan Ajar
 
-    function datakurikulum_otorisasi()
-    {
+    // function _datakurikulum_load()
+    // {
+    //     parent::_authLoad(function () {
 
-        parent::_authOtoritasi(function () {
+    //         echo parent::_httpPost('/web/akademik/datakurikulum_load', ["param" => json_encode($this->request->getPost())]);
+    //     });
+    // }
 
-            $userid = $this->session->get('id');
-            $data = $this->request->getPost();
+    // function _datakurikulum_save()
+    // {
 
-            echo parent::_httpPost('/web/akademik/datakurikulum_otorisasi', ["param" => json_encode($data), "userid" => $userid]);
-        });
-    }
+    //     parent::_authInsert(function () {
+    //         $userid = $this->session->get('id');
+    //         $data = array();
 
-    function datakurikulum_load()
-    {
-        parent::_authLoad(function () {
+    //         for ($i = 0; $i < count($_POST['judul']); $i++) {
+    //             // echo $i;
+    //             $dataarray = array(
+    //                 'id' => $_POST['id'][$i],
+    //                 'judul' => $_POST['judul'][$i],
+    //                 'deskripsi' => $_POST['deskripsi'][$i],
+    //                 'pertemuan_ke' => $_POST['pertemuan_ke'][$i],
+    //                 'id_mata_pelajaran' => $_POST['id_mata_pelajaran'],
+    //                 'id_user_pendidik' => $_POST['id_user_pendidik'],
+    //                 'id_semester' => $_POST['id_semester'],
+    //                 'is_ujian' => $_POST['is_ujian'][$i] == 0 ? $_POST['is_ujian'][$i] : '1',
+    //                 'id_jenis_ujian' => $_POST['is_ujian'][$i] != 0 ? $_POST['is_ujian'][$i] : '0',
+    //                 'id_batalyon' => $_POST['id_batalyon']
+    //             );
+    //             array_push($data, $dataarray);
+    //         }
+    //         if (isset($_POST['is_deleted']) == 1) {
+    //             for ($i = 0; $i < count($_POST['is_deleted']); $i++) {
+    //                 $dataarray = array(
+    //                     'id' => $_POST['is_deleted'][$i],
+    //                     'is_deleted' => 1
+    //                 );
+    //                 array_push($data, $dataarray);
+    //             }
+    //         }
 
-            echo parent::_httpPost('/web/akademik/datakurikulum_load', ["param" => json_encode($this->request->getPost())]);
-        });
-    }
+    //         // echo json_encode($data);
+    //         echo parent::_httpPost('/web/akademik/datakurikulum_save', ["param" => json_encode($data), "userid" => $userid]);
+    //     });
+    // }
 
-    function datakurikulum_save()
-    {
+    // function _datakurikulum_edit()
+    // {
+    //     parent::_authEdit(function () {
 
-        parent::_authInsert(function () {
-            $userid = $this->session->get('id');
-            $data = array();
+    //         echo parent::_httpPost('/web/akademik/datakurikulum_edit', ["param" => json_encode($this->request->getPost())]);
+    //     });
+    // }
 
-            for ($i = 0; $i < count($_POST['judul']); $i++) {
-                // echo $i;
-                $dataarray = array(
-                    'id' => $_POST['id'][$i],
-                    'judul' => $_POST['judul'][$i],
-                    'deskripsi' => $_POST['deskripsi'][$i],
-                    'pertemuan_ke' => $_POST['pertemuan_ke'][$i],
-                    'id_mata_pelajaran' => $_POST['id_mata_pelajaran'],
-                    'id_user_pendidik' => $_POST['id_user_pendidik'],
-                    'id_semester' => $_POST['id_semester'],
-                    'is_ujian' => $_POST['is_ujian'][$i] == 0 ? $_POST['is_ujian'][$i] : '1',
-                    'id_jenis_ujian' => $_POST['is_ujian'][$i] != 0 ? $_POST['is_ujian'][$i] : '0',
-                    'id_batalyon' => $_POST['id_batalyon']
-                );
-                array_push($data, $dataarray);
-            }
-            if (isset($_POST['is_deleted']) == 1) {
-                for ($i = 0; $i < count($_POST['is_deleted']); $i++) {
-                    $dataarray = array(
-                        'id' => $_POST['is_deleted'][$i],
-                        'is_deleted' => 1
-                    );
-                    array_push($data, $dataarray);
-                }
-            }
+    // function _datakurikulumdetail_load()
+    // {
+    //     parent::_authLoad(function () {
 
-            // echo json_encode($data);
-            echo parent::_httpPost('/web/akademik/datakurikulum_save', ["param" => json_encode($data), "userid" => $userid]);
-        });
-    }
+    //         echo parent::_httpPost('/web/akademik/datakurikulum_edit', ["param" => json_encode($this->request->getPost())]);
+    //     });
+    // }
 
-    function datakurikulum_edit()
-    {
-        parent::_authEdit(function () {
+    // function _datakurikulum_delete()
+    // {
+    //     parent::_authDelete(function () {
+    //         $userid = $this->session->get('id');
 
-            echo parent::_httpPost('/web/akademik/datakurikulum_edit', ["param" => json_encode($this->request->getPost())]);
-        });
-    }
-
-    function datakurikulumdetail_load()
-    {
-        parent::_authLoad(function () {
-
-            echo parent::_httpPost('/web/akademik/datakurikulum_edit', ["param" => json_encode($this->request->getPost())]);
-        });
-    }
-
-    function datakurikulum_delete()
-    {
-        parent::_authDelete(function () {
-            $userid = $this->session->get('id');
-
-            echo parent::_httpPost('/web/akademik/datakurikulum_delete', ["param" => json_encode($this->request->getPost()), "userid" => $userid]);
-        });
-    }
+    //         echo parent::_httpPost('/web/akademik/datakurikulum_delete', ["param" => json_encode($this->request->getPost()), "userid" => $userid]);
+    //     });
+    // }
 
     // Begin datamatapelajaran Done
 

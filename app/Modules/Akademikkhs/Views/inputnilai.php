@@ -1,4 +1,5 @@
 <div>
+    <? ?>
     <div class="page-hero page-container " id="page-hero">
         <div class="padding d-flex">
             <div class="page-title">
@@ -145,7 +146,7 @@
                             $('#input-title').html('Daftar nilai taruna Batalyon <strong>' + nama_batalyon + '</strong> mata pelajaran <strong>' + nama_mapel + ' </strong>');
                             $('#d-pdf').show();
                         } else {
-                            Swal.fire('Data Tidak Ditemukan', 'Data nilai belum tersedia untuk semester ini', 'warning');
+                            Swal.fire('Data Tidak Ditemukan', 'Data nilai belum tersedia untuk semester ini atau tidak mengajar mata kuliah ini', 'warning');
                             $('#table-card').hide();
                             $('#input-title').hide();
                             $('#d-pdf').hide();
@@ -185,7 +186,19 @@
 
         select2Init("#id_mata_pelajaran", "/matapelajaranbybatalyon_select_get", {
             id_batalyon: function() {
-                return $('#id_batalyon').val()
+                if ($('#id_batalyon').val() === null) {
+                    Swal.fire({
+                        title: 'Pilih Batalyon terlebih dulu',
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.value) {
+                            $('#id_batalyon').select2('open');
+                        }
+                    })
+                } else {
+                    return $('#id_batalyon').val()
+                }
             },
             id_aspek: 1,
             type_code: function() {

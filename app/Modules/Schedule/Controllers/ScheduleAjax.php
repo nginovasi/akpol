@@ -39,7 +39,6 @@ class ScheduleAjax extends BaseController
         echo parent::_httpGet('/web/schedule/kelompoktaruna_list_get', json_decode(json_encode($this->request->getPost()), true));
     }
 
-
     public function mata_pelajaran_select_get(){
         echo parent::_httpGet('/web/schedule/mata_pelajaran_select_get', json_decode(json_encode($this->request->getGet()), true));
     }

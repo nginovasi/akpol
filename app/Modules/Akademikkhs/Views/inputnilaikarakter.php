@@ -1,4 +1,5 @@
 <div>
+
     <div class="page-hero page-container " id="page-hero">
         <div class="padding d-flex">
             <div class="page-title">
@@ -37,6 +38,7 @@
                                             <select class="form-control sel2" id="id_batalyon" name="id_batalyon" required>
                                             </select>
                                         </div>
+                                       
                                         <!-- <div class="col-6">
                                             <label for="id_mata_pelajaran">Mata Pelajaran</label>
                                             <ul class="list-unstyled text-sm mt-1 text-muted" id="parsley-id-7"></ul>
@@ -44,7 +46,7 @@
                                             </select>
                                         </div> -->
                                     </div>
-                                </div>
+                                </div> 
                                 <div class="text-right">
                                     <!-- <button type="reset" class="btn btn-light">Reset</button> -->
                                     <a id="d-pdf" class="btn btn-light-primary font-weight-bold" style="display: none;">Download PDF</a>
@@ -203,6 +205,9 @@
         select2Init("#id_batalyon", "/batalyonsmt_select_get", null, function(data) {
             return data.text;
         }, function(data) {
+            // console.log('<pre>');
+            // console.log(data);
+            // console.log('</pre>');
             if (data.id === '') {
                 return "Pilih Batalyon";
             }

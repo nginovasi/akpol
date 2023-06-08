@@ -53,9 +53,12 @@ class AkademikkhsAction extends BaseController
 
     public function pdf()
     {
-
         parent::_authDownload(function () {
             $data = parent::_httpPost('/web/akademikkhs/' . explode("?", uri_segment(3))[0] . '_download', ["param" => json_encode($this->request->getGet())]);
+            // print_r('<pre>');
+            // print_r($data);
+            // print_r('</pre>');
+            // die;
             $rsdata = json_decode($data, true);
 
             $view = 'App\Modules\\' . ucfirst(uri_segment(0)) . '\Views\pdf\\' . explode("?", uri_segment(3))[0] . '_pdf';
@@ -221,7 +224,6 @@ class AkademikkhsAction extends BaseController
     function cetakkhs_load()
     {
         parent::_authLoad(function () {
-
             echo parent::_httpPost('/web/registrasitaruna/datataruna_load', ["param" => json_encode($this->request->getPost())]);
         });
     }
@@ -373,6 +375,10 @@ class AkademikkhsAction extends BaseController
     {
         parent::_authLoad(function () {
             $userid = $this->session->get('id');
+            // print_r('<pre>');
+            // print_r($this->session->get('id'));
+            // print_r('</pre>');
+            // print_r($userid);
             $data = $this->request->getPost();
 
             echo parent::_httpPost('/web/akademikkhs/inputnilaikarakter_load', ["param" => json_encode($data), "userid" => $userid]);

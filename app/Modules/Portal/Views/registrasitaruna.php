@@ -299,7 +299,7 @@
                                                 </select>
                                             </div>
                                             <div class="col-6">
-                                                <label>SMA / SMK</label>
+                                                <label>SMA</label>
                                                 <input type="text" class="form-control" id="nama_slta" name="nama_slta" placeholder="SMA / SMK" required>
                                             </div>
                                         </div>
@@ -311,7 +311,7 @@
                                                 <input type="text" pattern="\d*" class="form-control" id="thn_lulus" name="thn_lulus" placeholder="Tahun Lulus" maxlength="4" required>
                                             </div>
                                             <div class="col-6">
-                                                <label>Jurusan SMA / SMK</label>
+                                                <label>Jurusan SMA</label>
                                                 <input type="text" class="form-control" id="jurusan_slta" name="jurusan_slta" placeholder="Jurusan SMA / SMK" required>
                                             </div>
                                         </div>
@@ -569,7 +569,7 @@
         {
             id: 'id_kota_kab_ktp',
             url: '/kab_select_get',
-            placeholder: 'Pilih Koba / Kabupaten',
+            placeholder: 'Pilih Kota / Kabupaten',
             params: {
                 id_prov: function() {
                     return $('#id_prov_ktp').val()
@@ -742,7 +742,7 @@
                     Swal.fire({
                         title: ret.title,
                         text: ret.text,
-                        icon: 'error',
+                        icon: ret.icon,
                         showConfirmButton: false,
                         timer: 2500
                     })

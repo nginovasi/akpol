@@ -31,10 +31,15 @@ class PortalAction extends BaseController
     {
         parent::_authDownload(function () {
             $data = parent::_httppos('/web/portal/' . explode("?", uri_segment(3))[0] . '_download', ["param" => json_encode($this->request->getGet())]);
+            // print_r('<pre>');
+            // print_r($data);
+            // print_r('</pre>');
+            // die;
             $rsdata = json_decode($data, true);
             $view = 'App\Modules\\' . ucfirst(uri_segment(0)) . '\Views\pdf\\' . explode("?", uri_segment(3))[0] . '_pdf';
 
             $mpdf = new \Mpdf\Mpdf();
+
             $html = view($view, $rsdata);
             if (isset($_GET['o'])) {
                 $mpdf->AddPage(

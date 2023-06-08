@@ -19,7 +19,7 @@ class Portal extends BaseController
 
     public function index()
     {
-        header('location: '.base_url().'/portal/registrasitaruna', true, 301);
+        header('location: ' . base_url() . '/portal/registrasitaruna', true, 301);
         exit();
     }
 
@@ -30,8 +30,8 @@ class Portal extends BaseController
 
         $data = parent::_httpPost('/web/portal/' . explode("?", uri_segment(2))[0] . '_download', ["param" => json_encode($this->request->getPost())]);
         $rsdata = json_decode($data, true);
-        $view = 'App\Modules\Portal\Views\pdf\\'.explode("?", uri_segment(2))[0] .'_pdf';
-        
+        $view = 'App\Modules\Portal\Views\pdf\\' . explode("?", uri_segment(2))[0] . '_pdf';
+
         $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A5']);
         $html = view($view, $rsdata);
         // print_r($html);
@@ -80,6 +80,7 @@ class Portal extends BaseController
 
                 $view = 'App\Modules\Portal\Views\pdf\\' . explode("?", uri_segment(2))[0] . '_pdf';
                 $mpdf = new \Mpdf\Mpdf();
+
                 $html = view($view, $rsdata);
                 $mpdf->AddPage(
                     'P',
@@ -145,31 +146,30 @@ class Portal extends BaseController
         echo $data;
     }
 
-    public function telegram(){
+    public function telegram()
+    {
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-          CURLOPT_URL => 'http://devel.nginovasi.id/akpol-api/web/telegram/BotTelegram',
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS => array('text' => 'asdasddasdas'),
-          CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer dev',
-            'Cookie: ci_session=ojsu3cd9e5219t2sejkmc9bp0u0a68vq'
-          ),
+            CURLOPT_URL => 'http://devel.nginovasi.id/akpol-api/web/telegram/BotTelegram',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array('text' => 'asdasddasdas'),
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer dev',
+                'Cookie: ci_session=ojsu3cd9e5219t2sejkmc9bp0u0a68vq'
+            ),
         ));
 
         $response = curl_exec($curl);
 
         curl_close($curl);
         echo $response;
-
-
     }
 }

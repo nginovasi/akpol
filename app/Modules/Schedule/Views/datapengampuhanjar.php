@@ -31,6 +31,7 @@
                                         <col style="width:1%" />
                                         <col style="width:25%" />
                                         <col style="width:15%" />
+                                        <col style="width:15%" />
                                         <col style="" />
                                         <col style="width:15%" />
                                     </colgroup>
@@ -38,6 +39,7 @@
                                         <tr>
                                             <th><span>#</span></th>
                                             <th><span>Mata Pelajaran</span></th>
+                                            <th><span>Aspek</span></th>
                                             <th><span>Batalyon</span></th>
                                             <th><span>Kurikulum</span></th>
                                             <th><span>Pendidik</span></th>
@@ -204,7 +206,20 @@
             placeholder: 'Pilih Mata Pelajaran',
             params: {
                 'id_kurikulum': function() {
-                    return $("#id_batalyon").select2('data')['0']['id_kurikulum'];
+                    // return $("#id_batalyon").select2('data')['0']['id_kurikulum'];
+                    if ($("#id_batalyon").select2('data')['0'] != undefined) {
+                        return $("#id_batalyon").select2('data')['0']['id_kurikulum'];
+                    } else {
+                        Swal.fire({
+                            title: "Peringatan",
+                            icon: "warning",
+                            text: "Pilih Batalyon terlebih dahulu",
+                        }).then((result) => {
+                            $("#id_batalyon").select2('open');
+                            return null;
+                        });
+                        return null;
+                    }
                 }
             }
         }
@@ -301,7 +316,7 @@
         });
 
         $(document).on('click', '#add-service-button', function() {
-
+            // console.log($("#data-pendidik").find("select.select2pendidik").last().val());
             if ($("#data-pendidik").find("select.select2pendidik").last().val() == null) {
                 $("#data-pendidik").find("select.select2pendidik").last().select2('open');
             } else {
@@ -402,6 +417,17 @@
             {
                 data: "mata_pelajaran",
                 orderable: true
+            },
+            {
+                data: "aspek",
+                orderable: true,
+                render: function(a, type, data, index) {
+                    if (data.aspek == null) {
+                        return "-"
+                    } else {
+                        return data.aspek
+                    }
+                }
             },
             {
                 data: "batalyon",
@@ -548,7 +574,7 @@
     function addrows() {
         var count = $('tr.counting').length;
         var $row = $("<tr class='counting'>");
-        $row.append($("<td>").html(count + 0 + '.'));
+        $row.append($("<td>").html(count + 1 + '.'));
         $row.append($("<td>").html('<input type="hidden" name="id[' + count + ']" > <select class="form-control sel2 select2pendidik" style="width:100%" name="id_pendidik[' + count + ']" required></select>'));
 
         var lastChecked = $("#data-pendidik tbody tr:last-child td:eq(2) input").is(":checked");

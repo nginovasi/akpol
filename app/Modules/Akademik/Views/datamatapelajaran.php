@@ -29,12 +29,13 @@
                                 <table id="datatable" class="table table-theme table-row v-middle">
                                     <thead>
                                         <tr>
-                                            <th><span>#</span></th>
-                                            <th><span>Kode MK</span></th>
-                                            <th><span>Mata Pelajaran</span></th>
-                                            <th><span>Bidang</span></th>
-                                            <th><span>Kurikulum</span></th>
-                                            <th><span>Deskripsi</span></th>
+                                            <th>#</th>
+                                            <th>Kode MK</th>
+                                            <th>Mata Pelajaran</th>
+                                            <th>Bidang</th>
+                                            <th>Aspek</th>
+                                            <th>Kurikulum</th>
+                                            <th>Deskripsi</th>
                                             <th class="column-2action"></th>
                                         </tr>
                                     </thead>
@@ -48,18 +49,22 @@
                                 <input type="hidden" class="form-control" id="id" name="id" value="" required>
                                 <?= csrf_field(); ?>
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <div class="form-group">
                                             <label for="id_kurikulum">Kurikulum</label>
-                                            <select class="form-control sel2" id="id_kurikulum" name="id_kurikulum" required>
-                                            </select>
+                                            <select class="form-control sel2" id="id_kurikulum" name="id_kurikulum" required></select>
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <div class="form-group">
                                             <label for="id_bidang">Bidang</label>
-                                            <select class="form-control sel2" id="id_bidang" name="id_bidang" required>
-                                            </select>
+                                            <select class="form-control sel2" id="id_bidang" name="id_bidang" required></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <label for="id_aspek">Aspek</label>
+                                            <select class="form-control sel2" id="id_aspek" name="id_aspek" required></select>
                                         </div>
                                     </div>
                                 </div>
@@ -84,7 +89,7 @@
                                             <textarea class="form-control" id="deskripsi" name="deskripsi" placeholder="Deskripsi"></textarea>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                                 <!-- <div class="row">
                                     
@@ -152,16 +157,15 @@
                         <button class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <div class="p-4">
+                        <div class="card">
                             <?= csrf_field(); ?>
-                            <div class="d-sm-flex no-shrink mb-4">
+                            <div class="d-sm-flex no-shrink my-4">
                                 <div class="px-sm-4 my-3 my-sm-0 flex">
-                                    <h2 class="text-md" id="mata_pelajaran_modal">Jacqueline Reid</h2>
-                                    <h5 class="text-md" id="kode_mk_modal">Jacqueline Reid</h5>
-                                    <small class="d-block text-fade" id="deskripsi_modal">Senior Industrial Designer</small>
+                                    <h2 class="text-md" id="mata_pelajaran_modal"></h2>
+                                    <h5 class="text-md" id="kode_mk_modal"></h5>
+                                    <small class="d-block text-fade" id="deskripsi_modal"></small>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </form>
@@ -185,6 +189,12 @@
     var coreEvents;
 
     const select2Array = [{
+            id: 'id_aspek',
+            url: '/aspek_select_get',
+            placeholder: 'Pilih Aspek',
+            params: null
+        },
+        {
             id: 'id_bidang',
             url: '/bidang_select_get',
             placeholder: 'Pilih Bidang',
@@ -207,48 +217,53 @@
         };
         coreEvents.tableColumn = datatableColumn();
 
-         coreEvents.insertHandler = {
-        placeholder: 'Berhasil menyimpan data mata pelajaran',
-        afterAction: function(result) {
-            $(".sel2").val(null).trigger('change');
-            coreEvents.table.ajax.reload();
-            coreEvents.table.page( 'first' ).draw( 'page' );
+        coreEvents.insertHandler = {
+            placeholder: 'Berhasil menyimpan data mata pelajaran',
+            afterAction: function(result) {
+                $(".sel2").val(null).trigger('change');
+                $('ul#tab li a').first().trigger('click');
+                coreEvents.table.ajax.reload();
+                coreEvents.table.page('first').draw('page');
+            }
         }
-    }
 
         coreEvents.editHandler = {
             placeholder: '',
             afterAction: function(result) {
                 setTimeout(function() {
                     select2Array.forEach(function(x) {
-                        $('#' + x.id).select2('trigger', 'select', {
-                            data: {
-                                id: result.data[x.id],
-                                text: result.data[x.id.replace('id', 'nama')]
-                            }
-                        });
+                        console.log(result.data[x.id]);
+                        if (result.data[x.id] != null) {
+                            $('#' + x.id).select2('trigger', 'select', {
+                                data: {
+                                    id: result.data[x.id],
+                                    text: result.data[x.id.replace('id', 'nama')]
+                                }
+                            });
+                        } else {
+                            $('#' + x.id).val(null).trigger('change');
+                        }
                     });
                 }, 500);
                 coreEvents.table.ajax.reload();
-            coreEvents.table.page( 'first' ).draw( 'page' );
+                coreEvents.table.page('first').draw('page');
             }
         }
 
         coreEvents.deleteHandler = {
             placeholder: 'Berhasil menghapus data mata pelajaran',
             afterAction: function() {
-
+                coreEvents.table.ajax.reload();
             }
         }
 
         coreEvents.resetHandler = {
             action: function() {
-
+                $(".sel2").val(null).trigger('change');
             }
         }
 
         coreEvents.load();
-
 
         select2Array.forEach(function(x) {
             coreEvents.select2Init('#' + x.id, x.url, x.placeholder, x.params);
@@ -258,6 +273,7 @@
         let $this = $(this);
         $('#id_modal').val($(this).data('id'));
         $('#modalverifikasitaruna').modal('show');
+
         Swal.fire({
             title: "",
             icon: "info",
@@ -314,18 +330,40 @@
                 orderable: true
             },
             {
+                data: "aspek",
+                orderable: true,
+                render: function(a, type, data, index) {
+                    if (data.aspek == null) {
+                        return "-"
+                    } else {
+                        return data.aspek
+                    }
+                }
+            },
+            {
                 data: "kurikulum",
                 orderable: true
             },
             {
                 data: "deskripsi",
-                orderable: true
+                orderable: true,
+                render: function(a, type, data, index) {
+                    if (data.deskripsi == null || data.deskripsi == "") {
+                        return "-"
+                    } else {
+                        return data.deskripsi
+                    }
+                }
             },
             {
                 data: "id",
                 orderable: false,
                 render: function(a, type, data, index) {
                     let button = ""
+                    button += '<button class="btn btn-sm btn-outline-info detail" data-id="' + data.id + '" title="Detail">\
+                                        <i class="fa fa-eye"></i>\
+                                    </button>\
+                                    ';
 
                     if (auth_edit == "1") {
                         button += '<button class="btn btn-sm btn-outline-primary edit" data-id="' + data.id + '" title="Edit">\
@@ -333,11 +371,6 @@
                                 </button>\
                                 ';
                     }
-
-                    button += '<button class="btn btn-sm btn-outline-info detail" data-id="' + data.id + '" title="Detail">\
-                                        <i class="fa fa-eye"></i>\
-                                    </button>\
-                                    ';
 
                     if (auth_delete == "1") {
                         button += '<button class="btn btn-sm btn-outline-danger delete" data-id="' + data.id + '" title="Delete">\

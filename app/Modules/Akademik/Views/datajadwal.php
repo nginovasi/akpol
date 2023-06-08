@@ -291,8 +291,8 @@
 										</select>
 									</div>
 									<div class="col-4">
-										<label for="tanggal">Tanggal</label>
-										<input type="text" class="form-control" id="tanggal" name="tanggal" placeholder="Pilih Tanggal Hari Senin" required />
+										<label for="tanggal">Tanggal <small>(Dalam 1 minggu)</small></label>
+										<input type="text" class="form-control" id="tanggal" name="tanggal" placeholder="Pilih Tanggal" required />
 									</div>
 									<div class="col-4">
 										<label for="is_ujian">Ujian</label>
@@ -452,8 +452,10 @@
 			'hideMethod': 'fadeOut',
 		};
 
+
 		$('input[name="tanggal"]').daterangepicker({
 			singleDatePicker: true,
+			showDropdowns: false,
 			autoUpdateInput: false,
 			locale: {
 				cancelLabel: 'Clear'
@@ -462,8 +464,12 @@
 			isInvalidDate: function(date) {
 				// return 1 !== new Date(date).getDay();
 			}
+
 		}).on('apply.daterangepicker', function(ev, picker) {
-			$(this).val(picker.startDate.format('DD/MM/YYYY'));
+			var value = picker.startDate.format('DD/MM/YYYY');
+			var startdate = moment(value, 'DD/MM/YYYY').day(1).format('DD/MM/YYYY');
+			var enddate = moment(value, 'DD/MM/YYYY').day(7).format('DD/MM/YYYY');
+			$(this).val(startdate);
 			if ($('#id_pendidik').val() != null) {
 				tampildata($('#id_pendidik').val(), $('#tanggal').val());
 			}
@@ -527,11 +533,12 @@
 
 							result.data.body.forEach(function(list) {
 								var arrhari = new Date(list.tanggal);
-								tabel += 	'<tr id="' + list.tanggal.replaceAll('-', '_') + '">\
+								tabel += '<tr id="' + list.tanggal.replaceAll('-', '_') + '">\
 												<td class="cal-usersheader" style="color:#fff; background-color:#389fe8; padding: 0px;">' + days[arrhari.getDay()] + ', ' + list.tanggal + '</td>\
 												<td colspan="' + parseInt(result.data.header.length) + '" class="cal-usersheader" style="color:#000; background-color:#389fe8; padding: 0px;"></td>\
 											</tr>';
 								var obj = JSON.parse(list.data_unit);
+								// console.log(list.data_unit);
 								var orderobj = obj.sort((a, b) => parseFloat(a.jam_mulai) - parseFloat(b.jam_mulai));
 								orderobj.forEach(function(isi) {
 									tabel += `<tr id="u2">`;
@@ -684,7 +691,9 @@
 									var newDate = $('#' + content.tanggal + '_' + content.id_jam_pertemuan + '_' + content.id_kelompok_taruna).data('date');
 									document.querySelectorAll("tr [data-namakelompoktaruna='" + namakelompoktaruna + "'][data-date='" + newDate + "'] ").forEach(
 										function(el) {
-											if (el.children.item(0) != null) {satuhari = el;}
+											if (el.children.item(0) != null) {
+												satuhari = el;
+											}
 											el.remove();
 										}
 									);
@@ -882,6 +891,7 @@
 		});
 
 		// Modal remove task ?
+		//dng
 		$(document).on('click', '.opt-trash', function() {
 			var idjadwal = $(this).parent().parent().data('idjadwal');
 			var kode_mk = $(this).parent().parent().find('h3').html();
@@ -891,6 +901,7 @@
 			$('#id_jadwal').val(idjadwal);
 			$('#modal-delete').html('Apa anda yakin ingin menghapus jadwal ini <b>' + kode_mk + '</b>?');
 			$('#deletetask').modal('show');
+
 		});
 
 		// Remove task after conformation
@@ -912,6 +923,7 @@
 					if (result.success) {
 						$("div").find('[data-taskid=' + taskid + ']').remove();
 						$('#deletetask').modal('hide');
+						select2matkul();
 					} else {
 						Swal.fire('Error', result.message, 'error');
 					}
@@ -1184,6 +1196,7 @@
 			}
 		});
 
+		//dng
 		$('.select2matapalajaran').select2({
 			id: function(e) {
 				return e.id
@@ -1281,12 +1294,16 @@
 								// } else {
 								//    contenttd += isi.jumlah_pertemuan+'-'+isi.pertemuan_ke+' = '+isi.sisa_pertemuan;
 								// }
+
+								//dng hasil lemparan data sel2 
 								contenttd += '</div>\
 													<div class="col-7" align="right" style="padding-left: 5px; padding-right: 0; overflow: hidden;white-space: nowrap;text-overflow: ellipsis;max-width: 120px;">' + isi.nama_pendidik + '</div>\
 												</div>\
 											</div>';
+								// var_dump(contenttd);
 							});
 
+							//dng show data hasil lemparan
 							$('#' + list['id_kelompok'] + '_' + list['kelompok'].replaceAll(' ', '_')).html(contenttd);
 
 						});
@@ -1301,6 +1318,82 @@
 				}
 			});
 
+		});
+	}
+
+	function select2matkul() {
+		$.ajax({
+			url: url_ajax + "/matapelajaran_list_get",
+			type: 'post',
+			data: {
+				id_batalyon: $('#id_batalyon').val(),
+				id_mata_pelajaran: $('#mata_pelajaran').val(),
+				is_ujian: $('#is_ujian').val(),
+				"<?= csrf_token() ?>": "<?= csrf_hash() ?>"
+			},
+			dataType: 'json',
+			success: function(result) {
+				Swal.close();
+				if (result.success) {
+
+
+					$('.reloadlistjadwal').html('');
+
+					result.data.forEach(function(list) {
+						var contenttd = '';
+
+						var obj = JSON.parse(list.detail);
+						var orderobj = obj.sort((a, b) => parseFloat(a.pertemuan_ke) - parseFloat(b.pertemuan_ke));
+
+						var objlimit2 = orderobj.slice(0, 2);
+						objlimit2.forEach(function(isi) {
+
+							contenttd += '<div class="drag details ui-draggable ui-draggable-handle" \
+													data-taskid="2000-01-01_' + list['id_kelompok'] + '_' + isi.id_bahan_ajar + '" \
+													data-userid="' + isi.id_bahan_ajar + '" data-idjadwal="" \
+													data-idbahanajar="' + isi.id_bahan_ajar + '" \
+													data-iduserpendidik="' + isi.id_user_pendidik + '" \
+													data-satuanjenis="' + isi.satuan + '" \
+													data-idmatapelajaran="' + isi.id_mata_pelajaran + '" \
+													style="border-left: 5px solid ' + colorr[list.id_kelompok] + '; position: relative;">\
+												<h3 class="details-task" \
+													style="background: ' + colorr[list.id_kelompok] + '; color: #FFFFFF; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;max-width: 142px;">' + isi.kode_mk + ' - ' + isi.mata_pelajaran + '</h3>\
+												<div class="details-uren row">\
+													<div class="col-5" align="left" style="padding-left: 0; padding-right: 0;">';
+							// if (isi.is_ujian=='1') {
+							if (isi.id_jenis_ujian == '1') {
+								contenttd += "UTS";
+							} else if (isi.id_jenis_ujian == '2') {
+								contenttd += "UAS";
+							} else if (isi.id_jenis_ujian == '0') {
+								contenttd += isi.jumlah_pertemuan + '-' + isi.pertemuan_ke + ' = ' + isi.sisa_pertemuan;
+							}
+
+							// } else {
+							//    contenttd += isi.jumlah_pertemuan+'-'+isi.pertemuan_ke+' = '+isi.sisa_pertemuan;
+							// }
+
+							//dng hasil lemparan data sel2 
+							contenttd += '</div>\
+													<div class="col-7" align="right" style="padding-left: 5px; padding-right: 0; overflow: hidden;white-space: nowrap;text-overflow: ellipsis;max-width: 120px;">' + isi.nama_pendidik + '</div>\
+												</div>\
+											</div>';
+							// var_dump(contenttd);
+						});
+
+						//dng show data hasil lemparan
+						$('#' + list['id_kelompok'] + '_' + list['kelompok'].replaceAll(' ', '_')).html(contenttd);
+
+					});
+					dragable();
+				} else {
+					Swal.fire('Error', result.message, 'error');
+				}
+			},
+			error: function() {
+				Swal.close();
+				Swal.fire('Error', 'Terjadi kesalahan pada server', 'error');
+			}
 		});
 	}
 
@@ -1338,6 +1431,7 @@
 						// console.log($("div [data-taskid='"+taskid+"']").parent().html());
 						$("div [data-taskid='" + taskid + "']").attr('data-idjadwal', result.message);
 					}
+					select2matkul();
 				} else {
 					toastr.success('Gagal Menyimpan Jadwal')
 				}

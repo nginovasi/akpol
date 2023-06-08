@@ -264,7 +264,7 @@
                             <form data-plugin="parsley" data-option="{}" id="form" autocomplete="off">
                                 <input type="hidden" class="form-control" id="id" name="id" value="" required>
                                 <?=csrf_field();?>
-                                <!-- <input type="hidden" class="form-control" name="id_taruna" value="<?=$_SESSION['id']?>"> -->
+                                <input type="hidden" class="form-control" name="id_taruna" value="<?=$_SESSION['id']?>">
                                 <div class="form-group row">
                                     <div class="col-4">
                                         <label for="tanggal">Tanggal</label>
